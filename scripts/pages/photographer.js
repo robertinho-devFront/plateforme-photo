@@ -225,7 +225,6 @@ import MediaLikes from '../components/MediaLikes.js';
 import MediaGallery from "../components/MediaGallery.js";
 import NewCarrousel from '../components/NewCarrousel.js';
 
-// Assurer que la page est chargée avant d'exécuter le script
 document.addEventListener("DOMContentLoaded", async () => {
   const urlParams = new URLSearchParams(window.location.search);
   const photographerId = urlParams.get("id");
@@ -234,6 +233,21 @@ document.addEventListener("DOMContentLoaded", async () => {
   console.log("Photographer ID:", photographerId);
   console.log("Media ID from URL:", mediaId);
 
+  // if (photographerId) {
+  //   try {
+  //     const photographer = await getPhotographerById(photographerId);
+  //     const medias = await fetchMediaForPhotographer(photographerId);
+
+  //     console.log("Photographer Data:", photographer);
+  //     console.log("Medias Data:", medias);
+
+  //     displayPage(photographer, medias, mediaId);  // Passer mediaId même s'il est null
+  //   } catch (error) {
+  //     console.error("Error fetching data:", error);
+  //   }
+  // } else {
+  //   console.error("Photographer ID not found in URL.");
+  // }
   if (photographerId) {
     try {
       const photographer = await getPhotographerById(photographerId);
@@ -241,8 +255,11 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       console.log("Photographer Data:", photographer);
       console.log("Medias Data:", medias);
-
-      displayPage(photographer, medias, mediaId);  // Passer mediaId même s'il est null
+      if (photographer && medias) {
+        displayPage(photographer, medias, mediaId);
+      } else {
+        console.error("Failed to load photographer or media data.");
+      }
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -274,11 +291,12 @@ export function displayPage(photographer, medias, mediaId) {
       price: photographer.price,
       likes: medias.reduce((total, currentMedia) => total + currentMedia.likes, 0)
     })}
-    <div id="carrouselContainer" style="${index !== -1 ? 'display: block;' : 'display: none;'}"></div> 
+    <div class="carousel-overlay" style="${index !== -1 ? 'display: block;' : 'display: none;'}"></div> 
      `;
 
   // Rendre et afficher le carrousel dans le conteneur spécifié
   const carrouselContainer = document.querySelector('#carrouselContainer');
+  
   carrouselContainer.innerHTML = NewCarrousel.render(medias, index);
   carrouselContainer.style.display = 'block';
   NewCarrousel.events(medias, index);
