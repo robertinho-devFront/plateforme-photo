@@ -268,6 +268,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 });
 
+
+
 // Fonction pour afficher la page avec tous les composants
 export function displayPage(photographer, medias, mediaId) {
   const mainElement = document.querySelector("#main");
