@@ -293,7 +293,7 @@ export function displayPage(photographer, medias, mediaId) {
       price: photographer.price,
       likes: medias.reduce((total, currentMedia) => total + currentMedia.likes, 0)
     })}
-    <div class="carousel-overlay" style="${index !== -1 ? 'display: block;' : 'display: none;'}"></div> 
+    <div class="carousel-overlay" style="display: none;z-index:-1;position:relative;}"></div> 
      `;
 
   // Rendre et afficher le carrousel dans le conteneur spécifié
