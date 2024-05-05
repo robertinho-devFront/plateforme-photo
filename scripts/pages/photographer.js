@@ -266,9 +266,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   } else {
     console.error("Photographer ID not found in URL.");
   }
-
-
-  
 });
 
 
