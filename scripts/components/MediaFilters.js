@@ -1,4 +1,4 @@
-import { displayPage } from "../pages/photographer.js";
+// import { displayPage } from "../pages/photographer.js";
 
 export const render = () => {
   const queryString = window.location.search;
