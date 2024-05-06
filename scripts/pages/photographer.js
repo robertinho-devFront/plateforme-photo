@@ -286,7 +286,7 @@ export function displayPage(photographer, medias, mediaId) {
 
   // Construire le contenu HTML en utilisant les composants importés
   mainElement.innerHTML = `
-    ${Headline.render(photographer)}
+    ${ Headline.render(photographer)}
     ${MediaFilters.render()}
     ${MediaGallery.render(photographer.name, medias)}
     ${MediaLikes.render({
