@@ -214,7 +214,6 @@
 // // });
 
 
-
 import {
   getPhotographerById,
   fetchMediaForPhotographer,
@@ -225,10 +224,29 @@ import MediaLikes from '../components/MediaLikes.js';
 import MediaGallery from "../components/MediaGallery.js";
 import NewCarrousel from '../components/NewCarrousel.js';
 
+async function loadData(photographerId) {
+  try {
+      const photographer = await getPhotographerById(photographerId);
+      const medias = await fetchMediaForPhotographer(photographerId);
+      if (photographer && medias) {
+          displayPage(photographer, medias);
+      } else {
+          console.error("Failed to load photographer or media data.");
+      }
+  } catch (error) {
+      console.error("Error fetching data:", error);
+  }
+}
+
 document.addEventListener("DOMContentLoaded", async () => {
   const urlParams = new URLSearchParams(window.location.search);
   const photographerId = urlParams.get("id");
   const mediaId = urlParams.get('mediaId');  // Peut être null
+  if (photographerId) {
+    loadData(photographerId);
+} else {
+    console.error("No photographer ID found in URL.");
+}
 
   console.log("Photographer ID:", photographerId);
   console.log("Media ID from URL:", mediaId);
