@@ -73,7 +73,6 @@ function attachEvents(photographer, medias, mediaId) {
   if (mediaId) {
     NewCarrousel.render(photographer.name, medias, mediaId);
     NewCarrousel.events(medias);
-    
   }
 
 
@@ -88,6 +87,8 @@ function attachEvents(photographer, medias, mediaId) {
       price: photographer.price,
       likes: medias.reduce((total, currentMedia) => total + currentMedia.likes, 0),
     });
+      NewCarrousel.render(photographer.name, medias, mediaId);
+  NewCarrousel.events(medias);
     
     displayPage(photographer, medias, mediaId);
   }

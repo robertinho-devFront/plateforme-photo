@@ -150,8 +150,10 @@ export const events = (medias) => {
   let currentMediaIndex = medias.findIndex(media => media.id === Number(carouselContent.dataset.id));
 
   const updateMediaDisplay = (newIndex) => {
-    const newMedia = medias[newIndex];
+    currentMediaIndex = newIndex;
+    const newMedia = medias[currentMediaIndex];
     const mediaType = newMedia.image ? "image" : "video";
+    
     const folderName = getFolderNameFromPhotographerName(newMedia.photographerName); // Utilisation de newMedia.photographerName
     const mediaPath = `assets/images/SamplePhotos/${folderName}/${newMedia[mediaType]}`;
     const mediaTag = mediaType === "image" ?
@@ -170,21 +172,32 @@ export const events = (medias) => {
 
   const attachEvents = (medias, photographerName) => {
     closeButton.addEventListener('click', () => overlay.style.display = 'none');
-    leftButton.addEventListener('click', () => {
-      // Vérifier si medias est défini et qu'il contient des éléments
-      if (medias && medias.length > 0 && currentMediaIndex > 0) {
-        updateMediaDisplay(--currentMediaIndex);
-      }
-    });
-    rightButton.addEventListener('click', () => {
-      // Vérifier si medias est défini et qu'il contient des éléments
-      if (medias && medias.length > 0 && currentMediaIndex < medias.length - 1) {
-        updateMediaDisplay(++currentMediaIndex);
-      }
-    });
+    // leftButton.addEventListener('click', () => {
+    //   // Vérifier si medias est défini et qu'il contient des éléments
+    //   if (medias && medias.length > 0 && currentMediaIndex > 0) {
+    //     updateMediaDisplay(--currentMediaIndex);
+    //   }
+    // });
+    // rightButton.addEventListener('click', () => {
+    //   // Vérifier si medias est défini et qu'il contient des éléments
+    //   if (medias && medias.length > 0 && currentMediaIndex < medias.length - 1) {
+    //     updateMediaDisplay(++currentMediaIndex);
+    //   }
+    // });
+    if (medias && medias.length > 0) {
+      leftButton.addEventListener('click', () => {
+        if (currentMediaIndex > 0) updateMediaDisplay(currentMediaIndex - 1);
+      });
+      rightButton.addEventListener('click', () => {
+        if (currentMediaIndex < medias.length - 1) updateMediaDisplay(currentMediaIndex + 1);
+      });
+    } else {
+      console.error("No media found.");
+    }
     overlay.addEventListener('click', (event) => {
       if (event.target === overlay) overlay.style.display = 'none';
     });
+    
   };
 
   attachEvents();

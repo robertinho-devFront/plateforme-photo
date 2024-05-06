@@ -1,4 +1,4 @@
-//import { displayPage } from "../pages/photographer.js";
+//import { displayPage } from "/pages/photographer.js";
 
  export const getFolderNameFromPhotographerName = (photographerName) => {
   if (typeof photographerName !== 'string') {
