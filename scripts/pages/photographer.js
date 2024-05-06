@@ -25,6 +25,10 @@ async function loadData(photographerId) {
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
+  const overlayContainer = document.createElement("div");
+  overlayContainer.id = "overlay-container";
+  document.body.appendChild(overlayContainer);
+
   const urlParams = new URLSearchParams(window.location.search);
   const photographerId = urlParams.get("id");
   const mediaId = urlParams.get("mediaId");
@@ -34,6 +38,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   } else {
     console.error("No photographer ID found in URL.");
   }
+
+  //events(medias);
 });
 
 function displayPage(photographer, medias, mediaId) {
@@ -64,23 +70,32 @@ function attachEvents(photographer, medias, mediaId) {
   MediaFilters.events(photographer, medias);
   MediaGallery.events(photographer, medias);
 
+  if (mediaId) {
+    NewCarrousel.render(photographer.name, medias, mediaId);
+    NewCarrousel.events(medias);
+    
+  }
+
+
   function onClickMedia(event) {
     const mediaId = event.currentTarget.dataset.id;
     const newUrl = `${window.location.origin}${window.location.pathname}?id=${photographer.id}&mediaId=${mediaId}`;
     window.history.pushState({ path: newUrl }, '', newUrl);
-    NewCarrousel.render(photographer.name, medias, mediaId); // Assurez-vous de passer mediaId ici
+    NewCarrousel.render(photographer.name, medias, mediaId);
     NewCarrousel.events(medias);
+    MediaFilters.render();
+    MediaLikes.render({
+      price: photographer.price,
+      likes: medias.reduce((total, currentMedia) => total + currentMedia.likes, 0),
+    });
+    
+    displayPage(photographer, medias, mediaId);
   }
 
   const mediaItems = document.querySelectorAll('.media-item');
   mediaItems.forEach(item => {
-    item.addEventListener('click', function() {
-      const mediaId = this.dataset.id;
-      console.log("Media clicked:", mediaId);
-      const newUrl = `${window.location.origin}${window.location.pathname}?id=${photographer.id}&mediaId=${mediaId}`;
-      window.history.pushState({ path: newUrl }, '', newUrl);
-      NewCarrousel.render(photographer.name, medias, mediaId);
-      NewCarrousel.events(medias);
+    item.addEventListener('click', onClickMedia);
     });
-  });
+  
 }
+
