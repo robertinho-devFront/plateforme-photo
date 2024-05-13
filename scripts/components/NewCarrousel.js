@@ -1,380 +1,90 @@
-// const render = (medias) => {
-//     const queryString = window.location.search;
-//     const urlParams = new URLSearchParams(queryString);
-//     const filterBy = urlParams.get("mediaId");
-// }
-
-// const events = () => {
-
-// }
-
-// export default {
-//  render,
-//  events
-// }
-
-// export const render = (medias) => {
-//     const mediaId = new URLSearchParams(window.location.search).get('mediaId');
-//     const selectedMedia = medias.find(media => media.id.toString() === mediaId);
-
-//     return `
-//       <div class="carousel-overlay"
-//       style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); display: flex; justify-content: center; align-items: center;">
-//         <div class="carousel">
-//           <button class="carousel-close">✖</button>
-//           <button class="carousel-control left">←</button>
-//           <img src="${selectedMedia.imagePath}" alt="${selectedMedia.title}" class="carousel-image">
-//           <button class="carousel-control right">→</button>
-//         </div>
-//       </div>
-//     `;
-//   };
-
-//   export const events = (medias) => {
-//     const overlay = document.querySelector('.carousel-overlay');
-//     const leftButton = document.querySelector('.carousel-control.left');
-//     const rightButton = document.querySelector('.carousel-control.right');
-//     const closeButton = document.querySelector('.carousel-close');
-//     let currentMediaIndex = medias.findIndex(media => media.id.toString() === new URLSearchParams(window.location.search).get('mediaId'));
-
-//     closeButton.addEventListener('click', () => {
-//       overlay.style.display = 'none';
-//     });
-
-//     overlay.addEventListener('click', (event) => {
-//       if (event.target === overlay) {
-//         overlay.style.display = 'none';
-//       }
-//     });
-
-//     leftButton.addEventListener('click', (event) => {
-//       event.stopPropagation();
-//       currentMediaIndex = (currentMediaIndex + medias.length - 1) % medias.length;
-//       document.querySelector('.carousel-image').src = medias[currentMediaIndex].imagePath;
-//     });
-
-//     rightButton.addEventListener('click', (event) => {
-//       event.stopPropagation();
-//       currentMediaIndex = (currentMediaIndex + 1) % medias.length;
-//       document.querySelector('..carousel-image').src = medias[currentMediaIndex].imagePath;
-//     });
-//   };
-
-//   export default {
-//     render,
-//     events
-//   };
-
-// export const render = (medias) => {
-//     // Extraction de l'ID média de l'URL pour déterminer quel média afficher
-//     const mediaId = new URLSearchParams(window.location.search).get('mediaId');
-//     const selectedMedia = medias.find(media => media.id.toString() === mediaId);
-
-//     if (!selectedMedia) {
-//         console.error("Selected media not found");
-//         return '';  // Retourner une chaîne vide si le média n'est pas trouvé
-//     }
-
-//     // Rendu du carrousel avec le média sélectionné
-//     return `
-//         <div class="carousel-overlay"
-//         style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); display: flex; justify-content: center; align-items: center;">
-//             <div class="carousel">
-//                 <button class="carousel-close">✖</button>
-//                 <button class="carousel-control left">←</button>
-//                 <img src="${selectedMedia.imagePath}" alt="${selectedMedia.title}" class="carousel-image">
-//                 <button class="carousel-control right">→</button>
-//             </div>
-//         </div>
-//     `;
-// };
-
-// export const render = (medias) => {
-//     const mediaId = new URLSearchParams(window.location.search).get('mediaId');
-//     const selectedMedia = medias.find(media => media.id.toString() === mediaId);
-
-//     if (!selectedMedia) {
-//         console.error("Selected media not found");
-//         return '';  // Retourner une chaîne vide si le média n'est pas trouvé
-//     }
-
-//     // Ajout de la construction du chemin d'image
-//     const imagePath = `/assets/images/SamplePhotos/${selectedMedia.filename}`;  // Assurez-vous que le nom de fichier est correct
-
-//     // Rendu du carrousel avec le média sélectionné
-//     return `
-//         <div class="carousel-overlay"
-//         style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); display: flex; justify-content: center; align-items: center;">
-//             <div class="carousel">
-//                 <button class="carousel-close">✖</button>
-//                 <button class="carousel-control left">←</button>
-//                 <img src="${imagePath}" alt="${selectedMedia.title}" class="carousel-image">
-//                 <button class="carousel-control right">→</button>
-//             </div>
-//         </div>
-//     `;
-// };
-
-// export const events = (medias) => {
-//     const overlay = document.querySelector('.carousel-overlay');
-//     const leftButton = document.querySelector('.carousel-control.left');
-//     const rightButton = document.querySelector('.carousel-control.right');
-//     const closeButton = document.querySelector('.carousel-close');
-//     let currentMediaIndex = medias.findIndex(media => media.id.toString() === new URLSearchParams(window.location.search).get('mediaId'));
-
-//     // Gestion de la fermeture du carrousel
-//     closeButton.addEventListener('click', () => {
-//         overlay.style.display = 'none';
-//     });
-
-//     // Fermer le carrousel en cliquant en dehors de l'image
-//     overlay.addEventListener('click', (event) => {
-//         if (event.target === overlay) {
-//             overlay.style.display = 'none';
-//         }
-//     });
-
-//     // Navigation vers la gauche
-//     leftButton.addEventListener('click', (event) => {
-//         event.stopPropagation();
-//         currentMediaIndex = (currentMediaIndex + medias.length - 1) % medias.length;
-//         document.querySelector('.carousel-image').src = medias[currentMediaIndex].imagePath;
-//     });
-
-//     // Navigation vers la droite
-//     rightButton.addEventListener('click', (event) => {
-//         event.stopPropagation();
-//         currentMediaIndex = (currentMediaIndex + 1) % medias.length;
-//         document.querySelector('.carousel-image').src = medias[currentMediaIndex].imagePath;
-//     });
-// };
-
-// export default {
-//     render,
-//     events
-// };
-
-// import { getFolderNameFromPhotographerName } from './Media.js';
-
-//  const getFolderNameFromPhotographerName = (photographerName) => {
-//     if (!photographerName) {
-//         console.error("Photographer name is undefined or empty.");
-//         return 'default-folder';  // Utilisez un nom de dossier par défaut ou gérez l'erreur comme il convient.
-//     }
-//     return photographerName.split(" ").join("-").toLowerCase();
-// };
-
-// Fonction pour rendre le carrousel
-// export const render = (medias) => {
-//     const mediaId = new URLSearchParams(window.location.search).get('mediaId');
-//     const selectedMedia = medias.find(media => media.id.toString() === mediaId);
-
-//     if (!selectedMedia || !selectedMedia.photographerName) {
-//         console.error("Selected media not found");
-//         return '';  // Retourner une chaîne vide si le média n'est pas trouvé
-//     }
-
-//     const folderName = getFolderNameFromPhotographerName(selectedMedia.photographerName);
-//     console.log(`Folder Name: ${folderName}`);
-
-//     const filePath = selectedMedia.image ?
-//         `assets/images/SamplePhotos/${folderName}/${selectedMedia.image}` :
-//         `assets/images/SamplePhotos/${folderName}/${selectedMedia.video}`;
-
-//     // Correction: Utilisation de filePath pour l'image du carrousel
-//     return `
-//         <div class="carousel-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); display: flex; justify-content: center; align-items: center;">
-//             <div class="carousel">
-//                 <button class="carousel-close">✖</button>
-//                 <button class="carousel-control left">←</button>
-//                 <img src="${filePath}" alt="${selectedMedia.title}" class="carousel-image">
-//                 <button class="carousel-control right">→</button>
-//             </div>
-//         </div>
-//     `;
-// };
-
-// // Fonction pour gérer les événements du carrousel
-// export const events = (medias) => {
-//     const overlay = document.querySelector('.carousel-overlay');
-//     const leftButton = document.querySelector('.carousel-control.left');
-//     const rightButton = document.querySelector('.carousel-control.right');
-//     const closeButton = document.querySelector('.carousel-close');
-//     let currentMediaIndex = medias.findIndex(media => media.id.toString() === new URLSearchParams(window.location.search).get('mediaId'));
-
-//     closeButton.addEventListener('click', () => {
-//         overlay.style.display = 'none';
-//     });
-
-//     overlay.addEventListener('click', (event) => {
-//         if (event.target === overlay) {
-//             overlay.style.display = 'none';
-//         }
-//     });
-
-//     leftButton.addEventListener('click', (event) => {
-//         event.stopPropagation();
-//         currentMediaIndex = (currentMediaIndex + medias.length - 1) % medias.length;
-//         document.querySelector('.carousel-image').src = `/assets/images/SamplePhotos/${medias[currentMediaIndex].photographerId}/${medias[currentMediaIndex].image}`;
-//     });
-
-//     rightButton.addEventListener('click', (event) => {
-//         event.stopPropagation();
-//         currentMediaIndex = (currentMediaIndex + 1) % medias.length;
-//         document.querySelector('.carousel-image').src = `/assets/images/SamplePhotos/${medias[currentMediaIndex].photographerId}/${medias[currentMediaIndex].image}`;
-//     });
-// };
-
-// 2
-// export const render = (medias, selectedMediaIndex, folderName) => {
-//   if (!medias || !medias.length || selectedMediaIndex === -1) {
-//     console.error("No media available or invalid media index.");
-//     return '';
-//   }
-
-//   const selectedMedia = medias[selectedMediaIndex];
-//   const imagePath = `/assets/images/SamplePhotos/${folderName}/${selectedMedia.filename}`;
-
-//   return `
-//     <div class="carousel-overlay">
-//       <div class="carousel">
-//         <button class="carousel-close">✖</button>
-//         <button class="carousel-control left">←</button>
-//         <img src="${filePath}" alt="${selectedMedia.title}" class="carousel-image">
-//         <button class="carousel-control right">→</button>
-//       </div>
-//     </div>
-//   `;
-// };
-
-// export const events = (medias, currentIndex) => {
-//   const overlay = document.querySelector('.carousel-overlay');
-//   const leftButton = document.querySelector('.carousel-control.left');
-//   const rightButton = document.querySelector('.carousel-control.right');
-//   const closeButton = document.querySelector('.carousel-close');
-
-//   if (!overlay || !leftButton || !rightButton || !closeButton) {
-//     console.error("Carousel elements not found in the DOM.");
-//     return;
-//   }
-
-//   closeButton.addEventListener('click', () => {
-//     overlay.style.display = 'none';
-//   });
-
-//   leftButton.addEventListener('click', () => {
-//     const newIndex = (currentIndex + medias.length - 1) % medias.length;
-//     document.querySelector('.carousel-image').src = `assets/images/${medias[newIndex].filename}`;
-//     currentIndex = newIndex;
-//   });
-
-//   rightButton.addEventListener('click', () => {
-//     const newIndex = (currentIndex + 1) % medias.length;
-//     document.querySelector('.carousel-image').src = `assets/images/${medias[newIndex].filename}`;
-//     currentIndex = newIndex;
-//   });
-
-//   overlay.addEventListener('click', (event) => {
-//     if (event.target === overlay) {
-//       overlay.style.display = 'none';
-//     }
-//   });
-// };
-
-// EXPORT2
 import { getPhotographerById } from "../utils/api.js";
 
-export const getPhotographerNameFromId = async (photographerId) => {
-  // Utilisez getPhotographerById pour récupérer les informations du photographe à partir de son identifiant.
-  const photographer = await getPhotographerById(photographerId);
-
-  // Si le photographe est trouvé, retournez son nom, sinon retournez une chaîne vide.
-  return photographer ? photographer.name : "";
-};
+function getFolderNameFromPhotographerName(photographerName) {
+    if (!photographerName) {
+        console.error("Le nom du photographe est indéfini ou vide.");
+        return 'default-folder';
+    }
+    return photographerName.split(" ").join("-").toLowerCase();
+}
 
 export const render = async (medias, photographerId) => {
-  const mediaId = new URLSearchParams(window.location.search).get('mediaId');
-  const selectedMedia = medias.find(media => media.id.toString() === mediaId);
+    const mediaId = new URLSearchParams(window.location.search).get('mediaId');
+    if (!mediaId) {
+        console.error("Aucun ID média fourni dans l'URL.");
+        return '';
+    }
+    const selectedMedia = medias.find(media => media.id.toString() === mediaId);
+    if (!selectedMedia) {
+        console.error("Aucun média sélectionné ou trouvé.");
+        return '';
+    }
 
-  if (!selectedMedia) {
-      console.error("No media selected or media not found.");
-      return '';  // Return an empty string if the media is not found
-  }
+    const photographer = await getPhotographerById(photographerId);
+    if (!photographer) {
+        console.error("Photographe non trouvé.");
+        return '';  // Cette ligne retourne immédiatement une chaîne vide si le photographe n'est pas trouvé.
+    }
 
-  const photographer = await getPhotographerById(photographerId);
-  if (!photographer) {
-      console.error("Photographer not found.");
-      return '';
-  }
+    const folderName = getFolderNameFromPhotographerName(photographer.name);
+    const mediaFile = selectedMedia.image || selectedMedia.video;
+    const filePath = `assets/images/SamplePhotos/${folderName}/${mediaFile}`;
 
-  const folderName = getFolderNameFromPhotographerName(photographer.name);
-  const mediaFile = selectedMedia.image || selectedMedia.video;
-  const filePath = `assets/images/SamplePhotos/${folderName}/${mediaFile}`;
-
-  // Generate the carousel HTML
-  return `
-    <div class="carousel-overlay">
-      <div class="carousel">
-        <button class="carousel-close">✖</button>
-        <button class="carousel-control left">←</button>
-        <img src="${filePath}" alt="${selectedMedia.title}" class="carousel-image">
-        <button class="carousel-control right">→</button>
-      </div>
-    </div>
-  `;
+    // Ici, nous insérons directement le HTML dans le DOM après avoir vérifié que le container existe.
+    const carouselContainer = document.querySelector("#carouselContainer");
+    if (carouselContainer) {
+        carouselContainer.innerHTML = `
+            <div class="carousel-overlay">
+                <div class="carousel">
+                    <button class="carousel-close">✖</button>
+                    <button class="carousel-control left">←</button>
+                    <img src="${filePath}" alt="${selectedMedia.title}" class="carousel-image">
+                    <button class="carousel-control right">→</button>
+                </div>
+            </div>
+        `;
+        events(medias);  // Appel des événements après le rendu pour éviter les problèmes de timing.
+    } else {
+        console.error("Élément container du carrousel non trouvé dans le DOM.");
+    }
 };
 
-export const events = () => {
-  
-  const overlay = document.querySelector(".carousel-overlay");
-  if (overlay) {
-    const leftButton = document.querySelector(".carousel-control.left");
-    const rightButton = document.querySelector(".carousel-control.right");
-    const closeButton = document.querySelector(".carousel-close");
-    let currentMediaIndex = medias.findIndex(
-      (media) =>
-        media.id.toString() ===
-        new URLSearchParams(window.location.search).get("mediaId")
-    );
+export const events = (medias) => {
+    const overlay = document.querySelector(".carousel-overlay");
+    if (!overlay) {
+        console.error("Élément overlay du carrousel non trouvé dans le DOM.");
+        return;
+    }
 
-    // Ajouter des écouteurs d'événements uniquement si les éléments existent dans le DOM
-    leftButton.addEventListener("click", (event) => {
-      event.stopPropagation();
-      currentMediaIndex =
-        (currentMediaIndex + medias.length - 1) % medias.length;
-      const newMedia = medias[currentMediaIndex];
-      const newFilePath = `assets/images/SamplePhotos/${
-        newMedia.photographerId
-      }/${newMedia.image || newMedia.video}`;
-      document.querySelector(".carousel-image").src = newFilePath;
-    });
+    const leftButton = overlay.querySelector(".carousel-control.left");
+    const rightButton = overlay.querySelector(".carousel-control.right");
+    const closeButton = overlay.querySelector(".carousel-close");
 
-    rightButton.addEventListener("click", (event) => {
-      event.stopPropagation();
-      currentMediaIndex = (currentMediaIndex + 1) % medias.length;
-      const newMedia = medias[currentMediaIndex];
-      const newFilePath = `assets/images/SamplePhotos/${
-        newMedia.photographerId
-      }/${newMedia.image || newMedia.video}`;
-      document.querySelector(".carousel-image").src = newFilePath;
-    });
+    let currentMediaIndex = medias.findIndex(media => media.id.toString() === new URLSearchParams(window.location.search).get('mediaId'));
 
-    closeButton.addEventListener("click", () => {
-      overlay.style.display = "none";
-    });
-
+    closeButton.addEventListener("click", () => overlay.style.display = 'none');
     overlay.addEventListener("click", (event) => {
-      if (event.target === overlay) {
-        overlay.style.display = "none";
-      }
+        if (event.target === overlay) {
+            overlay.style.display = 'none';
+        }
     });
-  } else {
-    console.error("Overlay element not found in the DOM.");
-  }
+
+    leftButton.addEventListener("click", () => {
+        currentMediaIndex = (currentMediaIndex + medias.length - 1) % medias.length;
+        const newMedia = medias[currentMediaIndex];
+        const newFilePath = `assets/images/SamplePhotos/${getFolderNameFromPhotographerName(newMedia.photographer.name)}/${newMedia.image || newMedia.video}`;
+        document.querySelector(".carousel-image").src = newFilePath;
+    });
+
+    rightButton.addEventListener("click", () => {
+        currentMediaIndex = (currentMediaIndex + 1) % medias.length;
+        const newMedia = medias[currentMediaIndex];
+        const newFilePath = `assets/images/SamplePhotos/${getFolderNameFromPhotographerName(newMedia.photographer.name)}/${newMedia.image || newMedia.video}`;
+        document.querySelector(".carousel-image").src = newFilePath;
+    });
 };
 
 export default {
-  render,
-  events,
+    render,
+    events
 };
-// EXPORT2
