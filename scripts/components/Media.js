@@ -1,4 +1,5 @@
-//import { displayPage } from "/pages/photographer.js";
+import { displayPage } from "../pages/photographer.js";
+ //import Carousel from "./NewCarrousel.js";
 
  export const getFolderNameFromPhotographerName = (photographerName) => {
   if (typeof photographerName !== 'string') {
