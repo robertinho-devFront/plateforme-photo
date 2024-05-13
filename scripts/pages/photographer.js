@@ -291,6 +291,7 @@ export function displayPage(photographer, medias, mediaId) {
     console.log("No media selected or media not found.");
   }
 
+  
   // Attacher des événements supplémentaires si nécessaire
   attachEvents(photographer, medias);
 }
