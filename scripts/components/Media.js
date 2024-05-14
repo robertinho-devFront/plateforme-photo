@@ -7,6 +7,8 @@ import { displayPage } from "../pages/photographer.js";
     return ''; // Ou une autre valeur par défaut appropriée
   }
   
+
+  
   // Sépare les mots, capitalise le premier caractère de chaque mot et rejoint avec un tiret
   return photographerName
     .split(" ")
