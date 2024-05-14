@@ -219,7 +219,7 @@ import {
   getPhotographerById,
   fetchMediaForPhotographer,
 } from "../utils/api.js";
-import Headline from '../components/headline.js'; 
+import Headline from '../components/Headline.js'; 
 import MediaFilters from '../components/MediaFilters.js';
 import MediaLikes from '../components/MediaLikes.js';
 import MediaGallery from "../components/MediaGallery.js";
