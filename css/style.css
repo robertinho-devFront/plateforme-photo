@@ -204,7 +204,7 @@ h1 {
     grid-template-columns: 1fr 1fr 1fr;
     gap: 70px;
     margin: 100px auto 0;
-    padding: 0 6.25rem;
+    padding: 0 16vw;
 
 }
 
@@ -262,7 +262,7 @@ h1 {
     background-color: #FAFAFA;
     max-width: 1240px;
     margin: auto;
-    max-height: 313px;
+    height: 313px;
     border-radius: 5px;
     box-sizing: border-box;
 }
@@ -273,7 +273,7 @@ h1 {
     font-family: "DM Sans", sans-serif;
     font-weight: 400;
     color: #D3573C;
-    font-size: 36px;
+    font-size: 64px;
     margin: 0px auto 0;
     text-wrap: nowrap;
 }
@@ -282,7 +282,7 @@ h1 {
     font-family: "DM Sans", sans-serif;
     font-weight: 400;
     color: #901C1C;
-    font-size: 14px;
+    font-size: 24px;
     text-transform: capitalize;
     margin: 0 auto 5px;
 }
@@ -290,8 +290,8 @@ h1 {
     margin: 0 auto 3px;
     font-family: "DM Sans", sans-serif;
     font-weight: 400;
-    color: #000000;
-    font-size: 10px;
+    color: #525252;
+    font-size: 18px;
 }
 
 .headline__contact-button {
@@ -366,8 +366,13 @@ h1 {
 .media-filter {
     display: flex;
     flex-direction: row;
-    margin: 10px auto;
+    margin: 10px auto 23px;
     max-width: 1240px;
+}
+.media-filter p{
+    margin-right: 25px;
+    font-weight: 700;
+    font-family: "DM Sans", sans-serif;
 }
 
 .media-gallery {
@@ -384,21 +389,21 @@ h1 {
     flex-wrap: wrap;
     gap: 70px;
     max-width: 1240px;
-    margin: auto;
+    margin: auto auto;
     justify-content: space-between;
 
 }
 
 .gallery img {
     object-fit: cover;
-    width: 300px;
+    width: 351px;
     aspect-ratio: 1 / 1;
     border-radius: 5px;
 }
 
 video.media-content {
     object-fit: cover;
-    width: 300px;
+    width: 351px;
     aspect-ratio: 1 / 1;
     border-radius: 5px;
 }
@@ -447,4 +452,20 @@ video.media-content {
     background: transparent;
     border: none;
 
+}
+
+@media (max-width: 1024px) {
+    .headline {
+        display: flex;
+        flex-direction: column;
+        height: 350px;
+    }
+
+
+    .gallery{
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        margin: 0 4%;
+    }
 }

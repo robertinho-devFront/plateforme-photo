@@ -11,30 +11,13 @@ function getFolderNameFromPhotographerName(photographerName) {
 
 
 export const render = async (medias, photographerId) => {
-        // Ici, nous insérons directement le HTML dans le DOM après avoir vérifié que le container existe.
-        const carouselContainer = document.querySelector("#carouselContainer");
-        if (carouselContainer) {
-            carouselContainer.innerHTML = `
-                <div class="carousel-overlay">
-                    <div class="carousel">
-                        <button class="carousel-close">✖</button>
-                        <button class="carousel-control left">←</button>
-                        <img src="${filePath}" alt="${selectedMedia.title}" class="carousel-image">
-                        <button class="carousel-control right">→</button>
-                    </div>
-                </div>
-            `;
-            events(medias);  // Appel des événements après le rendu pour éviter les problèmes de timing.
-        } else {
-            console.error("Élément container du carrousel non trouvé dans le DOM.");
-        }
-
     const mediaId = new URLSearchParams(window.location.search).get('mediaId');
     if (!mediaId) {
         console.error("Aucun ID média fourni dans l'URL.");
         document.querySelector("#carouselContainer").innerHTML = "<p>No media ID provided.</p>";
         return '';
     }
+
     const selectedMedia = medias.find(media => media.id.toString() === mediaId);
     if (!selectedMedia) {
         console.error("Aucun média sélectionné ou trouvé.");
@@ -52,49 +35,56 @@ export const render = async (medias, photographerId) => {
     const mediaFile = selectedMedia.image || selectedMedia.video;
     const filePath = `assets/images/SamplePhotos/${folderName}/${mediaFile}`;
 
+        // Ici, nous insérons directement le HTML dans le DOM après avoir vérifié que le container existe.
+        const carouselContainer = document.querySelector("#carouselContainer");
+        if (carouselContainer) {
+            carouselContainer.innerHTML = `
+                <div class="carousel-overlay">
+                    <div class="carousel">
+                        <button class="carousel-close">✖</button>
+                        <button class="carousel-control left">←</button>
+                        <img src="${filePath}" alt="${selectedMedia.title}" class="carousel-image">
+                        <button class="carousel-control right">→</button>
+                    </div>
+                </div>
+            `;
+            console.log("Carousel content inserted");
+    const img = document.querySelector(".carousel-image");
+    if (img && img.complete) {
+        console.log("Image loaded successfully");
+    } else {
+        console.log("Image not loaded");
+    }
+    carouselContainer.style.display = 'block';
+    events(medias);  // Assurez-vous que cette fonction est appelée après l'insertion
+} else {
+    console.error("Élément container du carrousel non trouvé dans le DOM.");
+}
+
+
 
 };
 
-export const events = (medias, currentIndex) => {
+export const events = (medias, currentIndex = 0) => {
     const overlay = document.querySelector(".carousel-overlay");
-    document.querySelector(".carousel-close").addEventListener("click", () => overlay.style.display = 'none');
+    const closeButton = document.querySelector(".carousel-close");
+    const leftButton = document.querySelector(".carousel-control.left");
+    const rightButton = document.querySelector(".carousel-control.right");
 
-    document.querySelector(".carousel-control.left").addEventListener("click", () => {
+    if (!overlay || !closeButton || !leftButton || !rightButton) {
+        console.log("One or more elements are missing:");
+        console.log({overlay, closeButton, leftButton, rightButton});
+        return;
+    }
+
+    closeButton.addEventListener("click", () => overlay.style.display = 'none');
+    leftButton.addEventListener("click", () => {
         const newIndex = (currentIndex + medias.length - 1) % medias.length;
         render(medias, newIndex);
     });
-
-    document.querySelector(".carousel-control.right").addEventListener("click", () => {
+    rightButton.addEventListener("click", () => {
         const newIndex = (currentIndex + 1) % medias.length;
         render(medias, newIndex);
-    });
-    
-
-    const leftButton = overlay.querySelector(".carousel-control.left");
-    const rightButton = overlay.querySelector(".carousel-control.right");
-    const closeButton = overlay.querySelector(".carousel-close");
-
-    let currentMediaIndex = medias.findIndex(media => media.id.toString() === new URLSearchParams(window.location.search).get('mediaId'));
-
-    closeButton.addEventListener("click", () => overlay.style.display = 'none');
-    overlay.addEventListener("click", (event) => {
-        if (event.target === overlay) {
-            overlay.style.display = 'none';
-        }
-    });
-
-    leftButton.addEventListener("click", () => {
-        currentMediaIndex = (currentMediaIndex + medias.length - 1) % medias.length;
-        const newMedia = medias[currentMediaIndex];
-        const newFilePath = `assets/images/SamplePhotos/${getFolderNameFromPhotographerName(newMedia.photographer.name)}/${newMedia.image || newMedia.video}`;
-        document.querySelector(".carousel-image").src = newFilePath;
-    });
-
-    rightButton.addEventListener("click", () => {
-        currentMediaIndex = (currentMediaIndex + 1) % medias.length;
-        const newMedia = medias[currentMediaIndex];
-        const newFilePath = `assets/images/SamplePhotos/${getFolderNameFromPhotographerName(newMedia.photographer.name)}/${newMedia.image || newMedia.video}`;
-        document.querySelector(".carousel-image").src = newFilePath;
     });
 };
 

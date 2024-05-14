@@ -287,7 +287,7 @@ export function displayPage(photographer, medias,mediaId ) {
       price: photographer.price,
       likes: medias.reduce((total, currentMedia) => total + currentMedia.likes, 0)
     })}
-    <div id="carrouselContainer" style="${index !== -1 ? 'display: block;' : 'display: none;'}"></div> 
+    <div id="carrouselContainer" style="'}"></div> 
      `;
 
   // Rendre et afficher le carrousel dans le conteneur spécifié
