@@ -16,6 +16,9 @@ export const events = (photographer, medias) => {
 
 
 
+
+
+
 export default {
   render,
   events,
