@@ -6,9 +6,13 @@ import { displayPage } from "../pages/photographer.js";
     console.error("photographerName is not a string:", photographerName);
     return ''; // Ou une autre valeur par défaut appropriée
   }
-  return photographerName.split(" ").join("-").toLowerCase();
+  
+  // Sépare les mots, capitalise le premier caractère de chaque mot et rejoint avec un tiret
+  return photographerName
+    .split(" ")
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join("-");
 };
-
 const render = (media, photographerName) => {
   const mediaType = media.image ? "image" : "video";
   const mediaFile = media.image || media.video;
