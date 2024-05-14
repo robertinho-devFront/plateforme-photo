@@ -9,14 +9,34 @@ function getFolderNameFromPhotographerName(photographerName) {
 }
 
 export const render = async (medias, photographerId) => {
+        // Ici, nous insérons directement le HTML dans le DOM après avoir vérifié que le container existe.
+        const carouselContainer = document.querySelector("#carouselContainer");
+        if (carouselContainer) {
+            carouselContainer.innerHTML = `
+                <div class="carousel-overlay">
+                    <div class="carousel">
+                        <button class="carousel-close">✖</button>
+                        <button class="carousel-control left">←</button>
+                        <img src="${filePath}" alt="${selectedMedia.title}" class="carousel-image">
+                        <button class="carousel-control right">→</button>
+                    </div>
+                </div>
+            `;
+            events(medias);  // Appel des événements après le rendu pour éviter les problèmes de timing.
+        } else {
+            console.error("Élément container du carrousel non trouvé dans le DOM.");
+        }
+
     const mediaId = new URLSearchParams(window.location.search).get('mediaId');
     if (!mediaId) {
         console.error("Aucun ID média fourni dans l'URL.");
+        document.querySelector("#carouselContainer").innerHTML = "<p>No media ID provided.</p>";
         return '';
     }
     const selectedMedia = medias.find(media => media.id.toString() === mediaId);
     if (!selectedMedia) {
         console.error("Aucun média sélectionné ou trouvé.");
+        document.querySelector("#carouselContainer").innerHTML = "<p>Selected media not found.</p>";
         return '';
     }
 
@@ -30,31 +50,23 @@ export const render = async (medias, photographerId) => {
     const mediaFile = selectedMedia.image || selectedMedia.video;
     const filePath = `assets/images/SamplePhotos/${folderName}/${mediaFile}`;
 
-    // Ici, nous insérons directement le HTML dans le DOM après avoir vérifié que le container existe.
-    const carouselContainer = document.querySelector("#carouselContainer");
-    if (carouselContainer) {
-        carouselContainer.innerHTML = `
-            <div class="carousel-overlay">
-                <div class="carousel">
-                    <button class="carousel-close">✖</button>
-                    <button class="carousel-control left">←</button>
-                    <img src="${filePath}" alt="${selectedMedia.title}" class="carousel-image">
-                    <button class="carousel-control right">→</button>
-                </div>
-            </div>
-        `;
-        events(medias);  // Appel des événements après le rendu pour éviter les problèmes de timing.
-    } else {
-        console.error("Élément container du carrousel non trouvé dans le DOM.");
-    }
+
 };
 
-export const events = (medias) => {
+export const events = (medias, currentIndex) => {
     const overlay = document.querySelector(".carousel-overlay");
-    if (!overlay) {
-        console.error("Élément overlay du carrousel non trouvé dans le DOM.");
-        return;
-    }
+    document.querySelector(".carousel-close").addEventListener("click", () => overlay.style.display = 'none');
+
+    document.querySelector(".carousel-control.left").addEventListener("click", () => {
+        const newIndex = (currentIndex + medias.length - 1) % medias.length;
+        render(medias, newIndex);
+    });
+
+    document.querySelector(".carousel-control.right").addEventListener("click", () => {
+        const newIndex = (currentIndex + 1) % medias.length;
+        render(medias, newIndex);
+    });
+    
 
     const leftButton = overlay.querySelector(".carousel-control.left");
     const rightButton = overlay.querySelector(".carousel-control.right");

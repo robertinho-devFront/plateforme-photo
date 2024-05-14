@@ -1,5 +1,6 @@
 import Media from "./Media.js";
 
+
 export const render = (photographerName, medias) => {
   return `
     <div class="gallery">
@@ -11,6 +12,9 @@ export const render = (photographerName, medias) => {
 export const events = (photographer, medias) => {
   Media.events(photographer, medias);
 };
+
+
+
 
 export default {
   render,
