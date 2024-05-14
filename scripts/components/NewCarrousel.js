@@ -1,13 +1,17 @@
 import { getPhotographerById } from "../utils/api.js";
 
-function getFolderNameFromPhotographerName(photographerName) {
-    if (!photographerName) {
-        console.error("Le nom du photographe est indéfini ou vide.");
-        return 'default-folder';
+export const getFolderNameFromPhotographerName = (photographerName) => {
+    if (typeof photographerName !== 'string') {
+      console.error("photographerName is not a string:", photographerName);
+      return ''; // Ou une autre valeur par défaut appropriée
     }
-    return photographerName.split(" ").join("-").toLowerCase();
-}
-
+    
+    // Sépare les mots, capitalise le premier caractère de chaque mot et rejoint avec un tiret
+    return photographerName
+      .split(" ")
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join("-");
+  };
 
 
 export const render = async (medias, photographerId) => {
