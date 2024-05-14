@@ -8,6 +8,8 @@ function getFolderNameFromPhotographerName(photographerName) {
     return photographerName.split(" ").join("-").toLowerCase();
 }
 
+
+
 export const render = async (medias, photographerId) => {
         // Ici, nous insérons directement le HTML dans le DOM après avoir vérifié que le container existe.
         const carouselContainer = document.querySelector("#carouselContainer");
