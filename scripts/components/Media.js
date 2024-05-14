@@ -1,7 +1,7 @@
 import { displayPage } from "../pages/photographer.js";
  //import Carousel from "./NewCarrousel.js";
 
- export const getFolderNameFromPhotographerName = (photographerName) => {
+export const getFolderNameFromPhotographerName = (photographerName) => {
   if (typeof photographerName !== 'string') {
     console.error("photographerName is not a string:", photographerName);
     return ''; // Ou une autre valeur par défaut appropriée
