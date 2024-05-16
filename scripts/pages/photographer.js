@@ -247,6 +247,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       return;
     }
     const currentIndex = mediaId ? medias.findIndex(media => media.id.toString() === mediaId) : -1;
+    console.log("Initial currentIndex:", currentIndex); // Debugging line
     displayPage(photographer, medias, currentIndex);
   } catch (error) {
     console.error("Error fetching data:", error);
@@ -261,6 +262,8 @@ export function displayPage(photographer, medias, currentIndex) {
     return;
   }
 
+  const carouselStyle = currentIndex !== -1 ? 'display: block; z-index: 1000;' : 'display: none;';
+
   mainElement.innerHTML = `
     ${Headline.render(photographer)}
     ${MediaFilters.render()}
@@ -269,7 +272,7 @@ export function displayPage(photographer, medias, currentIndex) {
       price: photographer.price,
       likes: medias.reduce((total, currentMedia) => total + currentMedia.likes, 0)
     })}
-    <div id="carouselContainer" style="display: none;"></div>
+    <div id="carouselContainer" style="${carouselStyle}"></div>
   `;
 
   if (currentIndex !== -1) {
@@ -296,14 +299,20 @@ function attachCarouselEvents(medias) {
 function handleMediaItemClick(event, medias) {
   const mediaId = event.currentTarget.getAttribute('data-id');
   if (!mediaId) {
-      console.error("No media ID found on the clicked item.");
-      return;
+    console.error("No media ID found on the clicked item.");
+    return;
   }
   const currentIndex = medias.findIndex(media => media.id.toString() === mediaId);
+  if (currentIndex === -1) {
+    console.error("Media not found in medias array.");
+    return;
+  }
+  console.log("handleMediaItemClick - currentIndex:", currentIndex); // Debugging line
   updateUrlWithMediaId(mediaId);
   const photographerId = new URLSearchParams(window.location.search).get('id');
   console.log("handleMediaItemClick - photographerId:", photographerId); // Debugging line
   NewCarrousel.render(medias, photographerId, currentIndex);
+  document.getElementById('carouselContainer').style.display = 'block';
 }
 
 function updateUrlWithMediaId(mediaId) {

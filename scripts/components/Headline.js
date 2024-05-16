@@ -17,10 +17,15 @@ export const render = ({ name, city, country, tagline, portrait }) => {
   `;
 };
 
+
 export const events = () => {
   Modal.events();
 };
 
+document.addEventListener("DOMContentLoaded", () => {
+  document.body.innerHTML += Modal.render();
+  Modal.events();
+});
 export default {
   render,
   events,

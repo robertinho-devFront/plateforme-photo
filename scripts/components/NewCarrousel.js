@@ -10,12 +10,16 @@ export const getFolderNameFromPhotographerName = (photographerName) => {
 
 export const render = async (medias, photographerId, currentIndex) => {
     console.log("render - photographerId:", photographerId); // Debugging line
-    const selectedMedia = medias[currentIndex];
-    if (!selectedMedia) {
-        console.error("Aucun média sélectionné ou trouvé.");
-        document.querySelector("#carouselContainer").innerHTML = "<p>Selected media not found.</p>";
-        return '';
+    console.log("render - currentIndex:", currentIndex); // Debugging line
+
+    if (typeof currentIndex === 'undefined' || currentIndex < 0 || currentIndex >= medias.length) {
+        console.error("Index du média invalide ou non défini.");
+        document.querySelector("#carouselContainer").innerHTML = "";
+        return;
     }
+
+    const selectedMedia = medias[currentIndex];
+    console.log("render - selectedMedia:", selectedMedia); // Debugging line
 
     let photographer;
     try {
@@ -23,12 +27,12 @@ export const render = async (medias, photographerId, currentIndex) => {
         console.log("Photographer data fetched in NewCarrousel.js:", photographer); // Debugging line
     } catch (error) {
         console.error("Erreur lors de la récupération du photographe:", error);
-        return '';
+        return;
     }
 
     if (!photographer) {
         console.error("Photographe non trouvé.");
-        return '';
+        return;
     }
 
     const folderName = getFolderNameFromPhotographerName(photographer.name);
@@ -38,7 +42,7 @@ export const render = async (medias, photographerId, currentIndex) => {
     const carouselContainer = document.querySelector("#carouselContainer");
     if (carouselContainer) {
         carouselContainer.innerHTML = `
-            <div class="carousel-overlay">
+            <div class="carousel-overlay" style="z-index: 1000;">
                 <div class="carousel">
                     <button class="carousel-close">✖</button>
                     <button class="carousel-control left">←</button>
@@ -48,13 +52,13 @@ export const render = async (medias, photographerId, currentIndex) => {
             </div>
         `;
         carouselContainer.style.display = 'block';
-        events(medias, currentIndex);
+        attachEvents(medias, currentIndex);
     } else {
         console.error("Élément container du carrousel non trouvé dans le DOM.");
     }
 };
 
-export const events = (medias, currentIndex) => {
+const attachEvents = (medias, currentIndex) => {
     const overlay = document.querySelector(".carousel-overlay");
     const closeButton = document.querySelector(".carousel-close");
     const leftButton = document.querySelector(".carousel-control.left");
@@ -66,15 +70,38 @@ export const events = (medias, currentIndex) => {
         return;
     }
 
-    closeButton.addEventListener("click", () => overlay.style.display = 'none');
+    // Remove previous event listeners
+    closeButton.onclick = null;
+    leftButton.onclick = null;
+    rightButton.onclick = null;
+    overlay.onclick = null;
+
+    closeButton.addEventListener("click", closeCarousel);
+    overlay.addEventListener("click", (event) => {
+        if (event.target === overlay) {
+            closeCarousel();
+        }
+    });
+
     leftButton.addEventListener("click", () => {
         const newIndex = (currentIndex + medias.length - 1) % medias.length;
         updateCarousel(medias, newIndex);
     });
+
     rightButton.addEventListener("click", () => {
         const newIndex = (currentIndex + 1) % medias.length;
         updateCarousel(medias, newIndex);
     });
+};
+
+const closeCarousel = () => {
+    const overlay = document.querySelector(".carousel-overlay");
+    const carouselContainer = document.getElementById('carouselContainer');
+    if (overlay) overlay.remove(); // Remove the overlay element
+    if (carouselContainer) {
+        carouselContainer.style.display = 'none';
+        carouselContainer.style.zIndex = '';
+    }
 };
 
 const updateCarousel = (medias, newIndex) => {
@@ -90,5 +117,5 @@ const updateCarousel = (medias, newIndex) => {
 
 export default {
     render,
-    events
+    events: attachEvents
 };

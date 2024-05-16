@@ -24,8 +24,6 @@ export const fetchPhotographers = async () => {
 
 export const getPhotographerById = async (id) => {
   const photographersData = await fetchPhotographers();
-  const photographer = photographersData.find((p) => p.id.toString() === id);
-  console.log("getPhotographerById - photographersData:", photographersData); // Debugging line
-  console.log("getPhotographerById - photographer:", photographer); // Debugging line
+  const photographer = photographersData.find((p) => p.id.toString() === id.toString());
   return photographer;
 };

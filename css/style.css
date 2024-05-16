@@ -49,18 +49,21 @@ img.media-content {
     align-items: center;
 }
 
-#carousel{
+#carouselContainer{
     position: fixed;
-    /* background-color: white;   */
 top: 0;
 left: 0;
 width: 100vw;
 height: 100vh;
-z-index: -1;
 
+}
+.carousel{
 }
 .carousel-overlay{
     display: flex;
+        background-color: white;  
+position: relative;
+
     align-items: center;
     justify-content: center;
     width: 100%;
@@ -80,29 +83,31 @@ z-index: -1;
 }
 .carousel-close{
     position: absolute;
-    top: -35px;
-    right: -38px;
+    top: 0;
+    right: 0;
     color: #901C1C;
+    background-color: transparent;
+    border: none;
     font-size: 70px;
     padding: 0;
     margin: 0;
 }
-.carousel-prev{
+.left{
     position: absolute;
     top: 50%;
     font-size: 90px;
     color: #901C1C;
-    left: -66px;
+    left: 66px;
     border: none;
     background-color: transparent;
 
 }
-.carousel-next{
+.right{
     position: absolute;
     top: 50%;
         font-size: 90px;
     color: #901C1C;
-    right: -66px;
+    right: 66px;
     border: none;
     background-color: transparent;
 }
@@ -303,6 +308,7 @@ h1 {
     font-size: 18px;
     font-weight: 700;
     border-radius: 5px;
+    cursor: pointer;
 }
 
 .headline__avatar {
@@ -322,6 +328,7 @@ h1 {
     border: none;
     border-radius: 5px;
     padding: 0 10px;
+    cursor: pointer;
 }
 .photograph-header a {
     text-decoration: none;
