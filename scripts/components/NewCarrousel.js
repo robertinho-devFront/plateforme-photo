@@ -1,13 +1,23 @@
+// Importation des Fonctions
 import { getPhotographerById } from "../utils/api.js";
 
+//Fonction pour Obtenir le Nom du Dossier du Photographe
 export const getFolderNameFromPhotographerName = (photographerName) => {
   if (typeof photographerName !== 'string') {
     console.error("photographerName is not a string:", photographerName);
     return '';
   }
-  return photographerName.split(" ").join("-").toLowerCase();
-};
 
+  // Remplace les espaces par des tirets et met en minuscules
+  const folderName = photographerName.split(" ").join("-").toLowerCase();
+  console.log("Converted folder name:", folderName); // Ajoute un log pour vérifier le résultat
+  return folderName;
+};
+// Vérification de l'Index du Média : Elle vérifie que currentIndex est valide (pas undefined et dans les limites de la liste des médias).
+// Sélection du Média : Elle sélectionne le média actuel à partir de medias en utilisant currentIndex.
+// Récupération des Infos du Photographe : Elle utilise getPhotographerById pour obtenir les infos du photographe.
+// Construction du Chemin du Fichier : Elle construit le chemin du fichier pour l'image ou la vidéo à afficher.
+// Affichage du Carrousel : Elle met à jour le contenu HTML du conteneur du carrousel avec le média sélectionné et affiche le carrousel.
 export const render = async (medias, photographerId, currentIndex) => {
   console.log("render - photographerId:", photographerId);
   console.log("render - currentIndex:", currentIndex);
