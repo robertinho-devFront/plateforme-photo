@@ -1,31 +1,15 @@
-// Importation des Fonctions
 import { getPhotographerById } from "../utils/api.js";
+import { getFolderNameFromPhotographerName } from "../utils/getFolderNameFromPhotographerName.js";
 
-// Fonction pour Obtenir le Nom du Dossier du Photographe avec la première lettre de chaque mot en majuscule
-const getFolderNameFromPhotographerName = (photographerName) => {
-  if (typeof photographerName !== 'string') {
-    console.error("photographerName is not a string:", photographerName);
-    return '';
-  }
-
-  // Capitalize the first letter of each part split by space and hyphen
-  const words = photographerName.split(" ");
-  const capitalizedWords = words.map(word => {
-    const hyphenatedParts = word.split("-");
-    const capitalizedHyphenatedParts = hyphenatedParts.map(part => part.charAt(0).toUpperCase() + part.slice(1));
-    return capitalizedHyphenatedParts.join("-");
-  });
-  const folderName = capitalizedWords.join("-");
-  console.log("Converted folder name:", folderName); // Log for debugging
-  return folderName;
-};
-
-// Fonction de rendu
 export const render = async (medias, photographerId, currentIndex) => {
   console.log("render - photographerId:", photographerId);
   console.log("render - currentIndex:", currentIndex);
 
-  if (typeof currentIndex === 'undefined' || currentIndex < 0 || currentIndex >= medias.length) {
+  if (
+    typeof currentIndex === "undefined" ||
+    currentIndex < 0 ||
+    currentIndex >= medias.length
+  ) {
     console.error("Index du média invalide ou non défini.");
     document.querySelector("#carouselContainer").innerHTML = "";
     return;
@@ -60,9 +44,9 @@ export const render = async (medias, photographerId, currentIndex) => {
           <button class="carousel-close">✖</button>
           <button class="carousel-control left">←</button>
           ${
-            selectedMedia.image 
-            ? `<img src="${filePath}" alt="${selectedMedia.title}" class="carousel-image">`
-            : `<video controls class="carousel-image">
+            selectedMedia.image
+              ? `<img src="${filePath}" alt="${selectedMedia.title}" class="carousel-image">`
+              : `<video controls class="carousel-image">
                 <source src="${filePath}" type="video/mp4">
               </video>`
           }
@@ -70,7 +54,7 @@ export const render = async (medias, photographerId, currentIndex) => {
         </div>
       </div>
     `;
-    carouselContainer.style.display = 'block';
+    carouselContainer.style.display = "block";
     attachEvents(medias, currentIndex);
   } else {
     console.error("Élément container du carrousel non trouvé dans le DOM.");
@@ -115,26 +99,32 @@ const attachEvents = (medias, currentIndex) => {
 
 const closeCarousel = () => {
   const overlay = document.querySelector(".carousel-overlay");
-  const carouselContainer = document.getElementById('carouselContainer');
+  const carouselContainer = document.getElementById("carouselContainer");
   if (overlay) overlay.remove();
   if (carouselContainer) {
-    carouselContainer.style.display = 'none';
-    carouselContainer.style.zIndex = '';
+    carouselContainer.style.display = "none";
+    carouselContainer.style.zIndex = "";
   }
+
+  // remove the mediaId from query params 
 };
 
 const updateCarousel = (medias, newIndex) => {
   const newMediaId = medias[newIndex].id;
   const urlParams = new URLSearchParams(window.location.search);
-  urlParams.set('mediaId', newMediaId);
-  window.history.pushState({}, '', `${window.location.pathname}?${urlParams.toString()}`);
+  urlParams.set("mediaId", newMediaId);
+  window.history.pushState(
+    {},
+    "",
+    `${window.location.pathname}?${urlParams.toString()}`
+  );
 
-  const photographerId = new URLSearchParams(window.location.search).get('id');
+  const photographerId = new URLSearchParams(window.location.search).get("id");
   console.log("updateCarousel - photographerId:", photographerId);
   render(medias, photographerId, newIndex);
 };
 
 export default {
   render,
-  events: attachEvents
+  events: attachEvents,
 };
