@@ -27,3 +27,21 @@ export const getPhotographerById = async (id) => {
   const photographer = photographersData.find((p) => p.id.toString() === id.toString());
   return photographer;
 };
+
+const getFolderNameFromPhotographerName = (photographerName) => {
+  if (typeof photographerName !== 'string') {
+    console.error("photographerName is not a string:", photographerName);
+    return '';
+  }
+
+  // Capitalize the first letter of each part split by space and hyphen
+  const words = photographerName.split(" ");
+  const capitalizedWords = words.map(word => {
+    const hyphenatedParts = word.split("-");
+    const capitalizedHyphenatedParts = hyphenatedParts.map(part => part.charAt(0).toUpperCase() + part.slice(1));
+    return capitalizedHyphenatedParts.join("-");
+  });
+  const folderName = capitalizedWords.join("-");
+  console.log("Converted folder name:", folderName); // Log for debugging
+  return folderName;
+};

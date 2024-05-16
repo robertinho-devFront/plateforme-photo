@@ -8,11 +8,11 @@ const getFolderNameFromPhotographerName = (photographerName) => {
     return '';
   }
 
-  // Split the name into words, capitalize the first letter of each word, join them with hyphens
+  // Capitalize the first letter of each part split by space and hyphen
   const words = photographerName.split(" ");
   const capitalizedWords = words.map(word => {
     const hyphenatedParts = word.split("-");
-    const capitalizedHyphenatedParts = hyphenatedParts.map(part => part.charAt(0).toUpperCase() + part.slice(1).toLowerCase());
+    const capitalizedHyphenatedParts = hyphenatedParts.map(part => part.charAt(0).toUpperCase() + part.slice(1));
     return capitalizedHyphenatedParts.join("-");
   });
   const folderName = capitalizedWords.join("-");
@@ -20,11 +20,7 @@ const getFolderNameFromPhotographerName = (photographerName) => {
   return folderName;
 };
 
-// Vérification de l'Index du Média : Elle vérifie que currentIndex est valide (pas undefined et dans les limites de la liste des médias).
-// Sélection du Média : Elle sélectionne le média actuel à partir de medias en utilisant currentIndex.
-// Récupération des Infos du Photographe : Elle utilise getPhotographerById pour obtenir les infos du photographe.
-// Construction du Chemin du Fichier : Elle construit le chemin du fichier pour l'image ou la vidéo à afficher.
-// Affichage du Carrousel : Elle met à jour le contenu HTML du conteneur du carrousel avec le média sélectionné et affiche le carrousel.
+// Fonction de rendu
 export const render = async (medias, photographerId, currentIndex) => {
   console.log("render - photographerId:", photographerId);
   console.log("render - currentIndex:", currentIndex);
