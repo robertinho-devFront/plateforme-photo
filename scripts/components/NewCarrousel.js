@@ -1,18 +1,21 @@
 // Importation des Fonctions
 import { getPhotographerById } from "../utils/api.js";
 
-//Fonction pour Obtenir le Nom du Dossier du Photographe
-export const getFolderNameFromPhotographerName = (photographerName) => {
+// Fonction pour Obtenir le Nom du Dossier du Photographe avec la première lettre de chaque mot en majuscule
+const getFolderNameFromPhotographerName = (photographerName) => {
   if (typeof photographerName !== 'string') {
     console.error("photographerName is not a string:", photographerName);
     return '';
   }
 
-  // Remplace les espaces par des tirets et met en minuscules
-  const folderName = photographerName.split(" ").join("-").toLowerCase();
-  console.log("Converted folder name:", folderName); // Ajoute un log pour vérifier le résultat
+  // Split the name into words, capitalize the first letter of each word, join them with hyphens
+  const words = photographerName.split(" ");
+  const capitalizedWords = words.map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase());
+  const folderName = capitalizedWords.join("-");
+  console.log("Converted folder name:", folderName); // Log for debugging
   return folderName;
 };
+
 // Vérification de l'Index du Média : Elle vérifie que currentIndex est valide (pas undefined et dans les limites de la liste des médias).
 // Sélection du Média : Elle sélectionne le média actuel à partir de medias en utilisant currentIndex.
 // Récupération des Infos du Photographe : Elle utilise getPhotographerById pour obtenir les infos du photographe.
