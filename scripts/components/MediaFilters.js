@@ -6,14 +6,14 @@ export const render = () => {
   const filterBy = urlParams.get("filterBy");
 
   return `
-  <div class="media-filter">
-    <p>Trier par</p>
-    <select id="sortOptions" class="select-sortOptions">
-    ${["popularity", "title", "date"].map(type => (
-      `<option value="${type}" ${type === filterBy ? "selected" : ""}>${type}</option>`
-    )).join("")}
-    </select>
-  </div>`;
+    <div class="media-filter">
+      <p>Trier par</p>
+      <select id="sortOptions" class="select-sortOptions">
+        ${["popularity", "title", "date"].map(type => (
+          `<option value="${type}" ${type === filterBy ? "selected" : ""}>${type}</option>`
+        )).join("")}
+      </select>
+    </div>`;
 };
 
 export const events = (photographer, medias) => {
@@ -23,16 +23,16 @@ export const events = (photographer, medias) => {
     const sortedMedias = sortMedia(medias, event.target.value);
 
     const searchParams = new URLSearchParams(window.location.search);
-    searchParams.set("filterBy",event.target.value);
+    searchParams.set("filterBy", event.target.value);
 
-    const newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + "?" + searchParams;
-    window.history.pushState({path: newurl}, '', newurl);
+    const newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + "?" + searchParams.toString();
+    window.history.pushState({path: newUrl}, '', newUrl);
 
-    displayPage(photographer, sortedMedias); 
+    displayPage(photographer, sortedMedias, -1); // Reset currentIndex after filter update
   });
 };
 
-const sortMedia = (medias, sortBy) =>{
+const sortMedia = (medias, sortBy) => {
   switch (sortBy) {
     case "popularity":
       return medias.sort((a, b) => b.likes - a.likes);
@@ -43,7 +43,7 @@ const sortMedia = (medias, sortBy) =>{
     default:
       return medias;
   }
-}
+};
 
 export default {
   render,

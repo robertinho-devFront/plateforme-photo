@@ -214,7 +214,6 @@
 // // });
 
 
-
 import {
   getPhotographerById,
   fetchMediaForPhotographer,
@@ -240,14 +239,14 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   try {
     const photographer = await getPhotographerById(photographerId);
-    console.log("Photographer fetched:", photographer); // Debugging line
+    console.log("Photographer fetched:", photographer); 
     const medias = await fetchMediaForPhotographer(photographerId);
     if (!photographer || !medias) {
       console.error("Failed to load photographer or media data.");
       return;
     }
     const currentIndex = mediaId ? medias.findIndex(media => media.id.toString() === mediaId) : -1;
-    console.log("Initial currentIndex:", currentIndex); // Debugging line
+    console.log("Initial currentIndex:", currentIndex); 
     displayPage(photographer, medias, currentIndex);
   } catch (error) {
     console.error("Error fetching data:", error);
@@ -286,13 +285,32 @@ function attachEvents(photographer, medias) {
   Headline.events();
   MediaFilters.events(photographer, medias);
   MediaGallery.events(photographer, medias);
-  attachCarouselEvents(medias);
+  attachCarouselEvents(photographer, medias);
+  attachLikeEvents(photographer, medias);
 }
 
-function attachCarouselEvents(medias) {
+function attachCarouselEvents(photographer, medias) {
   const mediaItems = document.querySelectorAll('.media-item');
   mediaItems.forEach((item) => {
+    item.removeEventListener('click', handleMediaItemClick); // Remove previous event listener
     item.addEventListener('click', (event) => handleMediaItemClick(event, medias));
+  });
+}
+
+function attachLikeEvents(photographer, medias) {
+  const likeButtons = document.querySelectorAll('.likes');
+  likeButtons.forEach((button) => {
+    button.addEventListener('click', (event) => {
+      event.stopPropagation();
+      const mediaId = parseInt(button.getAttribute("data-id"));
+      const updatedMedias = medias.map(media => {
+        if (media.id === mediaId) {
+          return { ...media, likes: media.likes + 1 };
+        }
+        return media;
+      });
+      displayPage(photographer, updatedMedias, -1); // Reset currentIndex after like update
+    });
   });
 }
 
@@ -307,10 +325,10 @@ function handleMediaItemClick(event, medias) {
     console.error("Media not found in medias array.");
     return;
   }
-  console.log("handleMediaItemClick - currentIndex:", currentIndex); // Debugging line
+  console.log("handleMediaItemClick - currentIndex:", currentIndex);
   updateUrlWithMediaId(mediaId);
   const photographerId = new URLSearchParams(window.location.search).get('id');
-  console.log("handleMediaItemClick - photographerId:", photographerId); // Debugging line
+  console.log("handleMediaItemClick - photographerId:", photographerId);
   NewCarrousel.render(medias, photographerId, currentIndex);
   document.getElementById('carouselContainer').style.display = 'block';
 }
