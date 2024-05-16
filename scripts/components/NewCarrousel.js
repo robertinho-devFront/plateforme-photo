@@ -73,25 +73,38 @@ const attachEvents = (medias, currentIndex) => {
     return;
   }
 
-  // Remove previous event listeners
-  closeButton.onclick = null;
-  leftButton.onclick = null;
-  rightButton.onclick = null;
-  overlay.onclick = null;
+  // Remove previous event listeners by cloning nodes
+  const newCloseButton = closeButton.cloneNode(true);
+  closeButton.parentNode.replaceChild(newCloseButton, closeButton);
 
-  closeButton.addEventListener("click", closeCarousel);
-  overlay.addEventListener("click", (event) => {
-    if (event.target === overlay) {
+  const newLeftButton = leftButton.cloneNode(true);
+  leftButton.parentNode.replaceChild(newLeftButton, leftButton);
+
+  const newRightButton = rightButton.cloneNode(true);
+  rightButton.parentNode.replaceChild(newRightButton, rightButton);
+
+  const newOverlay = overlay.cloneNode(true);
+  overlay.parentNode.replaceChild(newOverlay, overlay);
+
+  // Re-assign updated elements
+  const updatedCloseButton = document.querySelector(".carousel-close");
+  const updatedLeftButton = document.querySelector(".carousel-control.left");
+  const updatedRightButton = document.querySelector(".carousel-control.right");
+  const updatedOverlay = document.querySelector(".carousel-overlay");
+
+  updatedCloseButton.addEventListener("click", closeCarousel);
+  updatedOverlay.addEventListener("click", (event) => {
+    if (event.target === updatedOverlay) {
       closeCarousel();
     }
   });
 
-  leftButton.addEventListener("click", () => {
+  updatedLeftButton.addEventListener("click", () => {
     const newIndex = (currentIndex + medias.length - 1) % medias.length;
     updateCarousel(medias, newIndex);
   });
 
-  rightButton.addEventListener("click", () => {
+  updatedRightButton.addEventListener("click", () => {
     const newIndex = (currentIndex + 1) % medias.length;
     updateCarousel(medias, newIndex);
   });
@@ -99,30 +112,25 @@ const attachEvents = (medias, currentIndex) => {
 
 const closeCarousel = () => {
   const overlay = document.querySelector(".carousel-overlay");
-  const carouselContainer = document.getElementById("carouselContainer");
+  const carouselContainer = document.getElementById('carouselContainer');
   if (overlay) overlay.remove();
   if (carouselContainer) {
-    carouselContainer.style.display = "none";
-    carouselContainer.style.zIndex = "";
+    carouselContainer.style.display = 'none';
+    carouselContainer.style.zIndex = '';
   }
-
-  // remove the mediaId from query params 
 };
 
 const updateCarousel = (medias, newIndex) => {
   const newMediaId = medias[newIndex].id;
   const urlParams = new URLSearchParams(window.location.search);
-  urlParams.set("mediaId", newMediaId);
-  window.history.pushState(
-    {},
-    "",
-    `${window.location.pathname}?${urlParams.toString()}`
-  );
+  urlParams.set('mediaId', newMediaId);
+  window.history.pushState({}, '', `${window.location.pathname}?${urlParams.toString()}`);
 
-  const photographerId = new URLSearchParams(window.location.search).get("id");
+  const photographerId = new URLSearchParams(window.location.search).get('id');
   console.log("updateCarousel - photographerId:", photographerId);
   render(medias, photographerId, newIndex);
 };
+
 
 export default {
   render,
