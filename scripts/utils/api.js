@@ -2,7 +2,6 @@ export const fetchMediaForPhotographer = async (photographerId) => {
   try {
     const response = await fetch("data/photographers.json");
     const data = await response.json();
-
     return data.media.filter(
       (media) => media.photographerId === parseInt(photographerId)
     );
@@ -16,15 +15,17 @@ export const fetchPhotographers = async () => {
   try {
     const response = await fetch("data/photographers.json");
     const data = await response.json();
-    
     return data.photographers;
   } catch (error) {
-    console.error("Could not fetch media for photographers:", error);
+    console.error("Could not fetch photographers:", error);
     return [];
   }
 };
 
 export const getPhotographerById = async (id) => {
   const photographersData = await fetchPhotographers();
-  return photographersData.find((p) => p.id.toString() === id);
+  const photographer = photographersData.find((p) => p.id.toString() === id);
+  console.log("getPhotographerById - photographersData:", photographersData); // Debugging line
+  console.log("getPhotographerById - photographer:", photographer); // Debugging line
+  return photographer;
 };

@@ -225,11 +225,10 @@ import MediaLikes from '../components/MediaLikes.js';
 import MediaGallery from "../components/MediaGallery.js";
 import NewCarrousel from '../components/NewCarrousel.js';
 
-// Assurer que la page est chargée avant d'exécuter le script
 document.addEventListener("DOMContentLoaded", async () => {
   const urlParams = new URLSearchParams(window.location.search);
   const photographerId = urlParams.get("id");
-  const mediaId = urlParams.get('mediaId');  // Peut être null
+  const mediaId = urlParams.get('mediaId');
 
   console.log("Photographer ID:", photographerId);
   console.log("Media ID from URL:", mediaId);
@@ -238,23 +237,23 @@ document.addEventListener("DOMContentLoaded", async () => {
     console.error("Photographer ID not found in URL.");
     return;
   }
-      const photographer = await getPhotographerById(photographerId);
-      const medias = await fetchMediaForPhotographer(photographerId);
-      try {
-        const photographer = await getPhotographerById(photographerId);
-        const medias = await fetchMediaForPhotographer(photographerId);
-        if (!photographer || !medias) {
-          console.error("Failed to load photographer or media data.");
-          return;
-        }
-        displayPage(photographer, medias, mediaId);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
+
+  try {
+    const photographer = await getPhotographerById(photographerId);
+    console.log("Photographer fetched:", photographer); // Debugging line
+    const medias = await fetchMediaForPhotographer(photographerId);
+    if (!photographer || !medias) {
+      console.error("Failed to load photographer or media data.");
+      return;
+    }
+    const currentIndex = mediaId ? medias.findIndex(media => media.id.toString() === mediaId) : -1;
+    displayPage(photographer, medias, currentIndex);
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
 });
 
-// Fonction pour afficher la page avec tous les composants
-export function displayPage(photographer, medias,mediaId ) {
+export function displayPage(photographer, medias, currentIndex) {
   const mainElement = document.querySelector("#main");
 
   if (!mainElement) {
@@ -262,23 +261,6 @@ export function displayPage(photographer, medias,mediaId ) {
     return;
   }
 
-  // Trouver l'index du média sélectionné à partir de mediaId
-   const index = mediaId ? medias.findIndex(media => media.id.toString() === mediaId) : -1;
-
-  // const mediaId = new URLSearchParams(window.location.search).get('mediaId');
-  //   if (mediaId) {
-  //       const selectedMediaIndex = medias.findIndex(media => media.id.toString() === mediaId);
-  //       if (selectedMediaIndex !== -1) {
-  //           NewCarrousel.render(medias, selectedMediaIndex); // Assurez-vous que la fonction render accepte l'index
-  //           NewCarrousel.events(medias, selectedMediaIndex); // Initialisation des événements
-  //       } else {
-  //           console.log("Media not found for the given ID.");
-  //       }
-  //   }
-
-
-
-  // Construire le contenu HTML en utilisant les composants importés
   mainElement.innerHTML = `
     ${Headline.render(photographer)}
     ${MediaFilters.render()}
@@ -287,41 +269,45 @@ export function displayPage(photographer, medias,mediaId ) {
       price: photographer.price,
       likes: medias.reduce((total, currentMedia) => total + currentMedia.likes, 0)
     })}
-    <div id="carrouselContainer" style="'}"></div> 
-     `;
+    <div id="carouselContainer" style="display: none;"></div>
+  `;
 
-  // Rendre et afficher le carrousel dans le conteneur spécifié
-  // const carrouselContainer = document.querySelector('#carrouselContainer');
-  // carrouselContainer.innerHTML = NewCarrousel.render(medias, index);
-  // carrouselContainer.style.display = 'block';
-  // NewCarrousel.events(medias, index);
+  if (currentIndex !== -1) {
+    NewCarrousel.render(medias, photographer.id, currentIndex);
+  }
 
-  const carouselContainer = document.querySelector('#carouselContainer');
-  if (carouselContainer && index !== -1) {
-    NewCarrousel.render(medias, index);
-    NewCarrousel.events(medias, index);
-} else if (carouselContainer) {
-    console.log("Aucun média sélectionné ou média non trouvé.");
-    carouselContainer.style.display = 'none';
-}
-
-  // if (index !== -1) {
-  //   const carrouselContainer = document.querySelector('#carrouselContainer');
-  //   carrouselContainer.innerHTML = NewCarrousel.render(medias, index);
-  //   NewCarrousel.events(medias, index);
-  // } else {
-  //   console.log("No media selected or media not found.");
-  // }
-
-  
-  // Attacher des événements supplémentaires si nécessaire
   attachEvents(photographer, medias);
 }
 
-// Fonction pour attacher des événements globaux
 function attachEvents(photographer, medias) {
   Headline.events();
   MediaFilters.events(photographer, medias);
   MediaGallery.events(photographer, medias);
-  // Assumer que les événements de NewCarrousel sont gérés correctement
+  attachCarouselEvents(medias);
+}
+
+function attachCarouselEvents(medias) {
+  const mediaItems = document.querySelectorAll('.media-item');
+  mediaItems.forEach((item) => {
+    item.addEventListener('click', (event) => handleMediaItemClick(event, medias));
+  });
+}
+
+function handleMediaItemClick(event, medias) {
+  const mediaId = event.currentTarget.getAttribute('data-id');
+  if (!mediaId) {
+      console.error("No media ID found on the clicked item.");
+      return;
+  }
+  const currentIndex = medias.findIndex(media => media.id.toString() === mediaId);
+  updateUrlWithMediaId(mediaId);
+  const photographerId = new URLSearchParams(window.location.search).get('id');
+  console.log("handleMediaItemClick - photographerId:", photographerId); // Debugging line
+  NewCarrousel.render(medias, photographerId, currentIndex);
+}
+
+function updateUrlWithMediaId(mediaId) {
+  const url = new URL(window.location);
+  url.searchParams.set('mediaId', mediaId);
+  window.history.pushState({}, '', url);
 }
