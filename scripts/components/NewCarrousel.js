@@ -10,7 +10,11 @@ const getFolderNameFromPhotographerName = (photographerName) => {
 
   // Split the name into words, capitalize the first letter of each word, join them with hyphens
   const words = photographerName.split(" ");
-  const capitalizedWords = words.map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase());
+  const capitalizedWords = words.map(word => {
+    const hyphenatedParts = word.split("-");
+    const capitalizedHyphenatedParts = hyphenatedParts.map(part => part.charAt(0).toUpperCase() + part.slice(1).toLowerCase());
+    return capitalizedHyphenatedParts.join("-");
+  });
   const folderName = capitalizedWords.join("-");
   console.log("Converted folder name:", folderName); // Log for debugging
   return folderName;
