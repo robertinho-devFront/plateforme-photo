@@ -134,3 +134,86 @@ form input {
     color: #757575;
     font-size: 9px;
 }
+
+.custom-select-wrapper {
+    position: relative;
+    display: inline-block;
+    user-select: none;
+  }
+  
+  .custom-select {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+  }
+  
+  .custom-select__trigger {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    background-color: #800000; /* @todos*/
+    color: white;
+    font-family: "DM Sans", sans-serif;
+    padding: 10px;
+    border-radius: 4px;
+   
+    width: 170px;
+    padding: 0;
+    height: 69px;
+  }
+  .custom-select__trigger span{
+    
+    font-size: 16px;
+    font-weight: 700;
+   
+  }
+  
+  .custom-select__trigger .arrow {
+
+    border-style: solid;
+	border-width: 0.15em 0.15em 0 0;
+	content: '';
+	display: inline-block;
+	height: .81em;
+	left: 0.15em;
+	position: relative;
+	top: 0.25em;
+	transform: rotate(-45deg);
+	vertical-align: top;
+	width: .81em;
+  }
+
+  .custom-select.open .custom-select__trigger .arrow {
+    transform: rotate(135deg);
+  }
+  
+  .custom-options {
+    position: absolute;
+    display: none;
+    background-color: #800000; /* Changer la couleur de fond  */
+    border-radius: 4px;
+    margin-top: 5px;
+    width: 100%;
+    z-index: 3;
+    padding:  10px;
+  }
+  
+  .custom-select.open .custom-options {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .custom-option {
+    padding: 10px;
+    cursor: pointer;
+    color: white;
+  }
+  .custom-option:nth-child(2){
+    border-top: 1px solid white;
+    border-bottom: 1px solid white;
+  }
+  
+  .custom-option:hover,
+  .custom-option.selected {
+    /* background-color: #600000; Couleur de survol */
+  }

@@ -3,32 +3,56 @@ import { displayPage } from "../pages/photographer.js";
 export const render = () => {
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
-  const filterBy = urlParams.get("filterBy");
+  const filterBy = urlParams.get("filterBy") || "popularity";
 
   return `
     <div class="media-filter">
       <p>Trier par</p>
-      <select id="sortOptions" class="select-sortOptions">
-        ${["popularity", "title", "date"].map(type => (
-          `<option value="${type}" ${type === filterBy ? "selected" : ""}>${type}</option>`
-        )).join("")}
-      </select>
+      <div class="custom-select-wrapper">
+        <div class="custom-select">
+          <div class="custom-select__trigger">
+            <span>${filterBy}</span>
+            <div class="arrow"></div>
+          </div>
+          <div class="custom-options">
+            <span class="custom-option" data-value="popularity">Popularité</span>
+            <span class="custom-option" data-value="date">Date</span>
+            <span class="custom-option" data-value="title">Titre</span>
+          </div>
+        </div>
+      </div>
     </div>`;
 };
 
 export const events = (photographer, medias) => {
-  const mediaFilterOptions = document.querySelector("#sortOptions");
+  const customSelect = document.querySelector(".custom-select");
+  const trigger = customSelect.querySelector(".custom-select__trigger span");
+  const options = customSelect.querySelectorAll(".custom-option");
 
-  mediaFilterOptions.addEventListener('change', (event) => {
-    const sortedMedias = sortMedia(medias, event.target.value);
+  customSelect.addEventListener("click", function() {
+    this.classList.toggle("open");
+  });
 
-    const searchParams = new URLSearchParams(window.location.search);
-    searchParams.set("filterBy", event.target.value);
+  for (const option of options) {
+    option.addEventListener("click", function() {
+      trigger.textContent = this.textContent;
+      customSelect.classList.remove("open");
+      const sortedMedias = sortMedia(medias, this.dataset.value);
 
-    const newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + "?" + searchParams.toString();
-    window.history.pushState({path: newUrl}, '', newUrl);
+      const searchParams = new URLSearchParams(window.location.search);
+      searchParams.set("filterBy", this.dataset.value);
 
-    displayPage(photographer, sortedMedias, -1); // Reset currentIndex after filter update
+      const newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + "?" + searchParams.toString();
+      window.history.pushState({path: newUrl}, '', newUrl);
+
+      displayPage(photographer, sortedMedias, -1); // Reset currentIndex after filter update
+    });
+  }
+
+  window.addEventListener("click", function(e) {
+    if (!customSelect.contains(e.target)) {
+      customSelect.classList.remove("open");
+    }
   });
 };
 
