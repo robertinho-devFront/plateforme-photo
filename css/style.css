@@ -265,7 +265,7 @@ h1 {
     justify-content: space-between;
     padding: 0 40px;
     background-color: #FAFAFA;
-    max-width: 1240px;
+    max-width: 1070px;
     margin: auto;
     height: 313px;
     border-radius: 5px;
@@ -373,8 +373,9 @@ h1 {
 .media-filter {
     display: flex;
     flex-direction: row;
+    align-items: center;
     margin: 10px auto 23px;
-    max-width: 1240px;
+    max-width: 1073px;
 }
 .media-filter p{
     margin-right: 25px;
@@ -395,22 +396,22 @@ h1 {
     display: flex;
     flex-wrap: wrap;
     gap: 70px;
-    max-width: 1240px;
+    max-width: 1073px;
     margin: auto auto;
-    justify-content: space-between;
+    
 
 }
 
 .gallery img {
     object-fit: cover;
-    width: 351px;
+    width: 18.9375rem;
     aspect-ratio: 1 / 1;
     border-radius: 5px;
 }
 
 video.media-content {
     object-fit: cover;
-    width: 351px;
+    width: 18.9375rem;
     aspect-ratio: 1 / 1;
     border-radius: 5px;
 }
@@ -421,7 +422,7 @@ video.media-content {
     justify-content: space-between;
     align-items: center;
     margin: 0 0;
-    max-width: 351px;
+    max-width: 18.9375rem;
 }
 
 .media-item h3 {

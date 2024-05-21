@@ -1,11 +1,16 @@
-export const render = () => {
+export const render = (photographerName = '') => {
   return `
     <div class="modal" id="contactModal" style="display:none;">
       <div class="modal-content">
+        <h2 class="modal-title">Contactez Moi</h2>
+        <h3 class="modal-title">${photographerName}</h3>  <!-- Ajouter le nom du photographe ici -->
         <span class="close-button">&times;</span>
         <form id="contactForm">
-          <label for="name">Votre nom :</label>
+          <label for="name"> Nom :</label>
           <input type="text" id="name" name="name" required>
+
+          <label for="lastname"> Prénom :</label>
+          <input type="text" id="lastname" name="lastname" required>
   
           <label for="email">Votre email :</label>
           <input type="email" id="email" name="email" required>
