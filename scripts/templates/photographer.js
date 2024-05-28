@@ -2,6 +2,7 @@ export const getPhotographerHTML = (photographer) => {
   const sanitizedPortrait = encodeURIComponent(photographer.portrait);
 
   return `
+  
         <a href="photographer.html?id=${photographer.id}" class="photographer-article">
             <article>
                 <img src="assets/images/Photographers-ID-Photos/${sanitizedPortrait}" alt="${photographer.name}" class="photographer-portrait"/>

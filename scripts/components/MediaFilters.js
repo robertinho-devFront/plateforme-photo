@@ -17,7 +17,7 @@ export const render = () => {
           <div class="custom-options">
             <span class="custom-option" data-value="popularity">Popularité</span>
             <span class="custom-option" data-value="date">Date</span>
-            <span class="custom-option" data-value="title">Titre</span>
+            <span class="custom-option" data-value="titre">Titre</span>
           </div>
         </div>
       </div>

@@ -41,8 +41,8 @@ export const render = async (medias, photographerId, currentIndex) => {
     carouselContainer.innerHTML = `
       <div class="carousel-overlay" style="z-index: 1000;">
         <div class="carousel">
-          <button class="carousel-close">✖</button>
-          <button class="carousel-control left">←</button>
+          <button class="carousel-close">x</button>
+          <button class="carousel-control left"><</button>
           ${
             selectedMedia.image
               ? `<img src="${filePath}" alt="${selectedMedia.title}" class="carousel-image">`
@@ -50,7 +50,8 @@ export const render = async (medias, photographerId, currentIndex) => {
                 <source src="${filePath}" type="video/mp4">
               </video>`
           }
-          <button class="carousel-control right">→</button>
+          <button class="carousel-control right">></button>
+          <div class="carousel-title">${selectedMedia.title}</div>
         </div>
       </div>
     `;

@@ -1,8 +1,10 @@
 @import url("photographer.css");
-main{
+
+main {
     position: relative;
 }
-.media-likes{
+
+.media-likes {
     position: fixed;
     bottom: 0;
     right: 0;
@@ -17,116 +19,130 @@ main{
     min-width: 376px;
     gap: 60px;
 }
-.media-likes__totalblock{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 5px ;
-}
-.media-likes__totals{}
-.media-likes__heart{}
-.media-likes__photographer{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 5px ;
-}
-.media-likes__photographer-price{}
-.media-likes__photographer-infos{}
-.media-likes__photographer-price{}
 
-.media-item{
+.media-likes__totalblock {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
+}
+
+.media-likes__totals {}
+
+.media-likes__heart {}
+
+.media-likes__photographer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
+}
+
+.media-likes__photographer-price {}
+
+.media-likes__photographer-infos {}
+
+.media-likes__photographer-price {}
+
+.media-item {
     cursor: pointer;
 }
+
 img.media-content {
-    max-width: 1050px;
-    max-height: 900px;
     object-fit: cover;
 }
-.carousel-media{
+
+.carousel-media {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-#carouselContainer{
+#carouselContainer {
     position: fixed;
-top: 0;
-left: 0;
-width: 100vw;
-height: 100vh;
-
-}
-.carousel{
-}
-.carousel-overlay{
-    display: flex;
-        background-color: white;  
-position: relative;
-
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-}
-.carousel-content{
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    align-items: center;
-    height: 100%;
-    max-width: 52rem;
-    max-height: 52rem;
-    width: 100%;
-    justify-content: center;
-    position: relative;
-}
-.carousel-close{
-    position: absolute;
+    background-color: white;
+    overflow: hidden;
     top: 0;
-    right: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    max-height: 100vh;
+
+}
+
+.carousel-overlay {
+    display: flex;
+    background-color: white;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    margin: 0px auto 0;
+    width: 100%;
+    height: 100%;
+}
+
+.carousel {
+    position: relative;
+}
+
+.carousel-close {
+    position: absolute;
+    top: -12px;
+    right: -69px;
     color: #901C1C;
     background-color: transparent;
     border: none;
     font-size: 70px;
+    font-weight: 100;
     padding: 0;
     margin: 0;
 }
-.left{
+
+.left {
     position: absolute;
-    top: 50%;
+    top: 40%;
+    font-family: monospace;
     font-size: 90px;
+    margin: 0;
+    padding: 0;
     color: #901C1C;
-    left: 66px;
+    left: -76px;
     border: none;
     background-color: transparent;
 
 }
-.right{
+
+.right {
     position: absolute;
-    top: 50%;
-        font-size: 90px;
+    font-family: monospace;
+    top: 40%;
+    font-size: 90px;
+    margin: 0;
+    padding: 0;
     color: #901C1C;
-    right: 66px;
+    right: -76px;
     border: none;
     background-color: transparent;
 }
-.carousel-image{
-    max-width: 1050px;
+
+.carousel-image {
+    max-width: 42.625rem;
+    max-height: 52.25rem;
     box-sizing: border-box;
     object-fit: cover;
-    background-position: top;
-    max-height: 900px;
-    width: 100%;
-    height: 100%;
+    width: 90vw;
+    height: 90vh;
+    aspect-ratio: 1 / 1;
+    object-position: center;
 }
 
-.fullscreen-carousel{
+.fullscreen-carousel {
     position: fixed;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;    top: 0;
+    justify-content: center;
+    top: 0;
     width: 100%;
     height: 100%;
     background-color: white;
@@ -134,7 +150,7 @@ position: relative;
     overflow-y: hidden;
 }
 
-.photo-title{
+.photo-title {
     font-family: "DM Sans", sans-serif;
     color: #901C1C;
     font-size: 24px;
@@ -143,31 +159,32 @@ position: relative;
 
 
 
-.close-btn{
+.close-btn {
     position: absolute;
     right: -45px;
     top: 0;
     color: #901C1C;
-    font-size:42px;
+    font-size: 42px;
     font-weight: 700;
 }
 
-.carousel-media{
+.carousel-media {
     position: relative;
 }
 
-.prev{
+.prev {
     position: absolute;
     top: 40%;
-    left:-45px;
+    left: -45px;
     color: #901C1C;
     font-size: 48px;
     font-weight: 700;
 }
-.next{
+
+.next {
     position: absolute;
     top: 40%;
-    right:-45px;
+    right: -45px;
     color: #901C1C;
     font-size: 48px;
     font-weight: 700;
@@ -187,13 +204,13 @@ header {
     justify-content: space-between;
     align-items: center;
     height: 90px;
-    max-width: 1430px;
+    max-width: 1070px;
     margin: auto;
 }
 
 h1 {
     color: #901C1C;
-    margin-right: 100px;
+    margin-right: 0;
     font-weight: 400;
     font-size: 36px;
 }
@@ -201,7 +218,7 @@ h1 {
 
 .logo {
     height: 50px;
-    margin-left: 100px;
+    margin-left: 0;
 }
 
 .photographer_section {
@@ -209,7 +226,8 @@ h1 {
     grid-template-columns: 1fr 1fr 1fr;
     gap: 70px;
     margin: 100px auto 0;
-    padding: 0 16vw;
+    padding: 0 0;
+    max-width: 1250px;
 
 }
 
@@ -291,8 +309,9 @@ h1 {
     text-transform: capitalize;
     margin: 0 auto 5px;
 }
+
 .headline__photographer-informations__tagline {
-    margin: 0 auto 3px;
+    margin: 19px auto 3px;
     font-family: "DM Sans", sans-serif;
     font-weight: 400;
     color: #525252;
@@ -306,7 +325,8 @@ h1 {
     background-color: #901C1C;
     color: white;
     font-size: 18px;
-    font-weight: 700;
+    font-weight: 500;
+    letter-spacing: 0.33px;
     border-radius: 5px;
     cursor: pointer;
 }
@@ -330,6 +350,7 @@ h1 {
     padding: 0 10px;
     cursor: pointer;
 }
+
 .photograph-header a {
     text-decoration: none;
 }
@@ -377,7 +398,8 @@ h1 {
     margin: 10px auto 23px;
     max-width: 1073px;
 }
-.media-filter p{
+
+.media-filter p {
     margin-right: 25px;
     font-weight: 700;
     font-family: "DM Sans", sans-serif;
@@ -398,7 +420,7 @@ h1 {
     gap: 70px;
     max-width: 1073px;
     margin: auto auto;
-    
+
 
 }
 
@@ -437,6 +459,18 @@ video.media-content {
     max-width: 235px;
 }
 
+.carousel-title{
+    font-family: "DM Sans", sans-serif;
+    color: #901C1C;
+    font-weight: 400;
+    font-size: 24px;
+    margin: 0 0;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    max-width: 235px;
+}
+
 .likes {
     font-size: 24px;
     color: #901C1C;
@@ -445,7 +479,8 @@ video.media-content {
     cursor: pointer;
 
 }
-.likes  img{
+
+.likes img {
     width: 22px;
 
 }
@@ -470,7 +505,7 @@ video.media-content {
     }
 
 
-    .gallery{
+    .gallery {
         display: flex;
         flex-wrap: wrap;
         align-items: center;

@@ -2,6 +2,12 @@ import Modal from './Modal.js';
 
 export const render = ({ name, city, country, tagline, portrait }) => {
   return `
+      <header>
+      <a href="index.html">
+        <img src="assets/images/logo.png" class="logo" alt="fisheye logo"/>
+      </a>
+      
+    </header>
     <div class="headline">
       <div class="headline__photographer-informations">
         <h2 class="headline__photographer-informations__name">${name}</h2>
