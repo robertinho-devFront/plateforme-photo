@@ -34,7 +34,7 @@ export const getMediaHTML = (media, folderName) => {
       ? `<img src="${mediaPath}" alt="${media.title}" class="media-content"/>`
       : `<video controls class="media-content">
                     <source src="${mediaPath}" type="video/mp4">
-                    brrrr fait le bowser
+                    brrrrrrr fait le bowser
           </video>`
     }
             <div class="media-item-infos"> 
