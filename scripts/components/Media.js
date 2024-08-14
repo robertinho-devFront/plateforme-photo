@@ -1,7 +1,6 @@
 import { displayPage } from "../pages/photographer.js";
 import { getFolderNameFromPhotographerName } from "../utils/getFolderNameFromPhotographerName.js";
 
-
 const render = (media, photographerName) => {
   const mediaType = media.image ? "image" : "video";
   const mediaFile = media.image || media.video;
@@ -40,7 +39,7 @@ const events = (photographer, medias) => {
 
   likeButtons.forEach(button => {
     button.addEventListener("click", (event) => {
-      event.stopPropagation();
+      event.stopPropagation(); // Empêche l'événement de propagation au parent
       const mediaId = parseInt(button.getAttribute("data-id"));
       const updatedMedias = medias.map(media => {
         if (media.id === mediaId) {
@@ -49,7 +48,7 @@ const events = (photographer, medias) => {
         return media;
       });
 
-      displayPage(photographer, updatedMedias, -1); // Reset currentIndex after like update
+      displayPage(photographer, updatedMedias, -1); // Réinitialise l'index après la mise à jour des likes
     });
   });
 };

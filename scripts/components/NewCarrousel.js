@@ -62,6 +62,49 @@ export const render = async (medias, photographerId, currentIndex) => {
   }
 };
 
+// const attachEvents = (medias, currentIndex) => {
+//   const overlay = document.querySelector(".carousel-overlay");
+//   const closeButton = document.querySelector(".carousel-close");
+//   const leftButton = document.querySelector(".carousel-control.left");
+//   const rightButton = document.querySelector(".carousel-control.right");
+
+//   if (!overlay || !closeButton || !leftButton || !rightButton) {
+//     console.log("One or more elements are missing:");
+//     console.log({ overlay, closeButton, leftButton, rightButton });
+//     return;
+//   }
+
+//   closeButton.focus();
+
+//   // Remove previous event listeners
+//   closeButton.removeEventListener("click", closeCarousel);
+//   leftButton.removeEventListener("click", handleLeftClick);
+//   rightButton.removeEventListener("click", handleRightClick);
+//   overlay.removeEventListener("click", handleOverlayClick);
+
+//   // Add new event listeners
+//   closeButton.addEventListener("click", closeCarousel);
+//   overlay.addEventListener("click", handleOverlayClick);
+//   leftButton.addEventListener("click", handleLeftClick);
+//   rightButton.addEventListener("click", handleRightClick);
+
+//   function handleLeftClick() {
+//     const newIndex = (currentIndex + medias.length - 1) % medias.length;
+//     updateCarousel(medias, newIndex);
+//   }
+
+//   function handleRightClick() {
+//     const newIndex = (currentIndex + 1) % medias.length;
+//     updateCarousel(medias, newIndex);
+//   }
+
+//   function handleOverlayClick(event) {
+//     if (event.target === overlay) {
+//       closeCarousel();
+//     }
+//   }
+// };
+
 const attachEvents = (medias, currentIndex) => {
   const overlay = document.querySelector(".carousel-overlay");
   const closeButton = document.querySelector(".carousel-close");
@@ -74,17 +117,35 @@ const attachEvents = (medias, currentIndex) => {
     return;
   }
 
-  // Remove previous event listeners
-  closeButton.removeEventListener("click", closeCarousel);
-  leftButton.removeEventListener("click", handleLeftClick);
-  rightButton.removeEventListener("click", handleRightClick);
-  overlay.removeEventListener("click", handleOverlayClick);
+  closeButton.focus(); // Focus initial sur le bouton de fermeture
 
-  // Add new event listeners
   closeButton.addEventListener("click", closeCarousel);
+  closeButton.addEventListener("keydown", (event) => {
+    if (event.key === "Enter" || event.key === " ") {
+      closeCarousel();
+    }
+  });
+
   overlay.addEventListener("click", handleOverlayClick);
+  overlay.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      closeCarousel();
+    }
+  });
+
   leftButton.addEventListener("click", handleLeftClick);
+  leftButton.addEventListener("keydown", (event) => {
+    if (event.key === "Enter" || event.key === " ") {
+      handleLeftClick();
+    }
+  });
+
   rightButton.addEventListener("click", handleRightClick);
+  rightButton.addEventListener("keydown", (event) => {
+    if (event.key === "Enter" || event.key === " ") {
+      handleRightClick();
+    }
+  });
 
   function handleLeftClick() {
     const newIndex = (currentIndex + medias.length - 1) % medias.length;
@@ -102,6 +163,7 @@ const attachEvents = (medias, currentIndex) => {
     }
   }
 };
+
 
 const closeCarousel = () => {
   const overlay = document.querySelector(".carousel-overlay");

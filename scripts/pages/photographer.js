@@ -78,7 +78,7 @@ function attachEvents(photographer, medias) {
 function attachCarouselEvents(photographer, medias) {
   const mediaItems = document.querySelectorAll('.media-item');
   mediaItems.forEach((item) => {
-    item.removeEventListener('click', handleMediaItemClick); // Remove previous event listener
+    item.removeEventListener('click', handleMediaItemClick); 
     item.addEventListener('click', (event) => handleMediaItemClick(event, medias));
   });
 }

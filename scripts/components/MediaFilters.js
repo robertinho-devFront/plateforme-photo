@@ -10,14 +10,14 @@ export const render = () => {
       <p>Trier par</p>
       <div class="custom-select-wrapper">
         <div class="custom-select">
-          <div class="custom-select__trigger">
+          <div class="custom-select__trigger" tabindex="0">
             <span>${filterBy}</span>
             <div class="arrow"></div>
           </div>
           <div class="custom-options">
-            <span class="custom-option" data-value="popularity">Popularité</span>
-            <span class="custom-option" data-value="date">Date</span>
-            <span class="custom-option" data-value="titre">Titre</span>
+            <span class="custom-option" data-value="popularity" tabindex="0">Popularité</span>
+            <span class="custom-option" data-value="date" tabindex="0">Date</span>
+            <span class="custom-option" data-value="titre" tabindex="0">Titre</span>
           </div>
         </div>
       </div>
@@ -33,6 +33,12 @@ export const events = (photographer, medias) => {
     this.classList.toggle("open");
   });
 
+  customSelect.addEventListener("keydown", function(event) {
+    if (event.key === "Enter" || event.key === " ") {
+      this.classList.toggle("open");
+    }
+  });
+
   for (const option of options) {
     option.addEventListener("click", function() {
       trigger.textContent = this.textContent;
@@ -46,6 +52,21 @@ export const events = (photographer, medias) => {
       window.history.pushState({path: newUrl}, '', newUrl);
 
       displayPage(photographer, sortedMedias, -1); // Reset currentIndex after filter update
+    });
+    option.addEventListener("keydown", function(event) {
+      if (event.key === "Enter" || event.key === " ") {
+        trigger.textContent = this.textContent;
+        customSelect.classList.remove("open");
+        const sortedMedias = sortMedia(medias, this.dataset.value);
+
+        const searchParams = new URLSearchParams(window.location.search);
+        searchParams.set("filterBy", this.dataset.value);
+
+        const newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + "?" + searchParams.toString();
+        window.history.pushState({path: newUrl}, '', newUrl);
+
+        displayPage(photographer, sortedMedias, -1); // Reset currentIndex after filter update
+      }
     });
   }
 
