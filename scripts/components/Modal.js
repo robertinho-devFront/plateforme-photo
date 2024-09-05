@@ -1,4 +1,4 @@
-export const render = (photographerName = '') => {
+export const render = (photographerName = "") => {
   return `
     <div class="modal" id="contactModal" style="display:none;">
       <div class="modal-content">
@@ -48,12 +48,19 @@ export const events = () => {
     }
   };
 
+  // Gestion de la fermeture de la modal avec la touche "Echap"
+  window.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && modal.style.display === "block") {
+      modal.style.display = "none";
+    }
+  });
+
   const contactForm = document.querySelector("#contactForm");
   if (contactForm) {
     contactForm.onsubmit = (event) => {
       event.preventDefault(); // Empêche la soumission réelle du formulaire
-      
-      alert('Message envoyé !'); // Action à effectuer après la soumission du formulaire
+
+      alert("Message envoyé !"); // Action à effectuer après la soumission du formulaire
       modal.style.display = "none";
     };
   }
