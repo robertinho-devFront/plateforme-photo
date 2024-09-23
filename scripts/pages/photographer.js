@@ -20,34 +20,38 @@ document.addEventListener("DOMContentLoaded", async () => {
   const photographerId = urlParams.get("id");  // ID du photographe dans l'URL
   const mediaId = urlParams.get('mediaId');    // ID du média spécifique (si fourni dans l'URL)
 
-  // On affiche les IDs dans la console pour s'assurer qu'ils sont bien récupérés.
-  console.log("Photographer ID:", photographerId);
-  console.log("Media ID from URL:", mediaId);
 
   // Si l'ID du photographe n'est pas trouvé dans l'URL, on arrête l'exécution du script et on affiche une erreur dans la console.
   if (!photographerId) {
-    console.error("Photographer ID not found in URL.");
+    // console.error("Photographer ID not found in URL.");
+   
     return;
   }
+
+  console.log("Photographer ID from URL:", photographerId);
+  console.log("Media ID from URL (if present):", mediaId);
 
   try {
     // On tente de récupérer les données du photographe en utilisant l'ID.
     const photographer = await getPhotographerById(photographerId);
     console.log("Photographer fetched:", photographer); 
-
+  
     // On récupère également les médias associés à ce photographe.
-    const medias = await fetchMediaForPhotographer(photographerId);
-    
+    let medias = await fetchMediaForPhotographer(photographerId);
+  
     // Si les données du photographe ou les médias ne sont pas trouvés, on arrête et on affiche une erreur.
     if (!photographer || !medias) {
       console.error("Failed to load photographer or media data.");
       return;
     }
-
+  
+    // Trier les médias par popularité par défaut
+    medias = medias.sort((a, b) => b.likes - a.likes);
+  
     // On détermine l'index du média actuel, si un mediaId est présent dans l'URL (utile pour savoir quel média afficher dans la lightbox).
     const currentIndex = mediaId ? medias.findIndex(media => media.id.toString() === mediaId) : -1;
     console.log("Initial currentIndex:", currentIndex); 
-    
+  
     // On appelle la fonction displayPage pour afficher les informations du photographe et ses médias sur la page.
     displayPage(photographer, medias, currentIndex);
   } catch (error) {

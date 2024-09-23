@@ -4,22 +4,43 @@ import { getPhotographerHTML } from '../templates/photographer.js'
 
 // Cette fonction asynchrone utilise 'fetch' pour récupérer les données des photographes depuis un fichier JSON.
 async function fetchPhotographers() {
-    // On fait une requête pour obtenir le fichier JSON contenant les informations des photographes.
-    const response = await fetch('data/photographers.json'); 
-    // On extrait les données au format JSON à partir de la réponse de l'API.
-    const data = await response.json();
-    // On retourne uniquement la liste des photographes.
-    return data.photographers;
+    try {
+        // On fait une requête pour obtenir le fichier JSON contenant les informations des photographes.
+        const response = await fetch('data/photographers.json'); 
+
+        // On vérifie que la réponse est valide.
+        if (!response.ok) {
+            throw new Error('Erreur lors de la récupération des photographes');
+        }
+
+        // On extrait les données au format JSON à partir de la réponse de l'API.
+        const data = await response.json();
+
+        // On log les données récupérées dans la console pour s'assurer qu'elles sont bien récupérées.
+        console.log("Photographers fetched: ", data.photographers);
+
+        // On retourne uniquement la liste des photographes.
+        return data.photographers;
+    } catch (error) {
+        console.error("Erreur lors de la récupération des photographes:", error);
+        return [];
+    }
 }
 
 // Cette fonction gère la récupération des photographes. Si cela échoue, elle renvoie une donnée de secours.
 async function getPhotographers() {
     try {
         // On tente de récupérer les photographes via la fonction fetchPhotographers.
-        return fetchPhotographers();
+        const photographers = await fetchPhotographers();
+
+        // On log la liste des photographes récupérés pour vérifier que tout fonctionne.
+        console.log("Liste des photographes récupérés :", photographers);
+
+        return photographers;
     } catch (error) {
         // En cas d'erreur (par exemple, si le fichier JSON ne peut pas être récupéré), on affiche un message d'erreur dans la console.
         console.error("Could not fetch photographers:", error);
+
         // On retourne un ensemble de données statiques comme solution de secours.
         return [
             {
@@ -48,11 +69,14 @@ async function getPhotographers() {
 async function displayData(photographers) {
     // On sélectionne l'élément HTML qui contiendra les cartes des photographes (élément avec la classe .photographer_section).
     const photographersSection = document.querySelector(".photographer_section");
-    
+
     // On transforme les objets "photographers" en HTML grâce à la fonction getPhotographerHTML.
     // La méthode .map parcourt chaque photographe et génère le HTML, puis .join("") concatène toutes les chaînes de HTML en une seule chaîne.
     const photographersHTML = photographers.map(getPhotographerHTML).join("");
-    
+
+    // On log les données qui vont être insérées dans la section pour vérification.
+    // console.log("HTML généré pour les photographes :", photographersHTML);
+
     // On insère le HTML généré dans la section dédiée aux photographes sur la page.
     photographersSection.innerHTML = photographersHTML;
 }
@@ -61,7 +85,10 @@ async function displayData(photographers) {
 async function init() {
     // On récupère les données des photographes en appelant la fonction getPhotographers.
     const photographers = await getPhotographers();
-    
+
+    // On log les photographes récupérés avant affichage pour s'assurer qu'ils sont bien reçus.
+    // console.log("Données des photographes reçues :", photographers);
+
     // On passe ces données à la fonction displayData pour qu'elles soient affichées sur la page.
     displayData(photographers);
 }
