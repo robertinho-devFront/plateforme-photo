@@ -456,7 +456,7 @@ video.media-content {
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
-    max-width: 235px;
+    max-width: 190px;
 }
 
 .carousel-title{
