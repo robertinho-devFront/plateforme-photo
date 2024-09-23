@@ -62,7 +62,6 @@ export const render = async (medias, photographerId, currentIndex) => {
   }
 };
 
-
 const attachEvents = (medias, currentIndex) => {
   const overlay = document.querySelector(".carousel-overlay");
   const closeButton = document.querySelector(".carousel-close");
@@ -137,7 +136,6 @@ const attachEvents = (medias, currentIndex) => {
     }
   }
 };
-
 
 const closeCarousel = () => {
   const overlay = document.querySelector(".carousel-overlay");

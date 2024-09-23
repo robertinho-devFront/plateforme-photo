@@ -19,7 +19,7 @@ export const render = ({ name, city, country, tagline, portrait }) => {
         portrait
       )}" alt="${name}" />
     </div>
-   ${Modal.render(name)} <!-- Passer le nom du photographe à la modal -->
+   ${Modal.render(name)} 
   `;
 };
 
@@ -28,7 +28,6 @@ export const events = () => {
 };
 
 document.addEventListener("DOMContentLoaded", () => {
-  // Cette partie pourrait être redondante si vous appelez déjà Modal.render() et Modal.events() ailleurs
   document.body.innerHTML += Modal.render();
   Modal.events();
 });
