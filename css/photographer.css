@@ -185,6 +185,7 @@ input[type="submit"]{
     width: 170px;
     padding: 0;
     height: 60px;
+    margin-left: 20px;
   }
   .custom-select__trigger span{
     text-transform: capitalize;
